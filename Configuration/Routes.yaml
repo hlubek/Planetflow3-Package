@@ -1,0 +1,12 @@
+
+##
+# Default route
+
+-
+  name: 'fallback'
+  uriPattern: ''
+  defaults:
+    '@package':    'Planetflow3'
+    '@controller': 'Standard'
+    '@action':     'index'
+    '@format':     'html'
