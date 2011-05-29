@@ -36,7 +36,7 @@
 				<f:for each="{items}" as="item">
 					<article class="item">
 						<div class="headline">
-							<h2><a href="{item.link}">{item.title}</a></h2>
+							<h2><a href="{item.link}">{item.title -> f:raw()}</a></h2>
 							<span class="date">{item.publicationDate -> f:format.date(format: "M jS Y")}</span>
 							<a class="channel" href="{item.channel.url}">{item.channel.name}</a>
 						</div>
