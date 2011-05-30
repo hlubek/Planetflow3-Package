@@ -1,69 +1,46 @@
-<!doctype html>
-<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<f:layout name="Default" />
 
-  <f:base />
+<f:section name="container">
+	<div id="imprint">
+		<h2>Imprint</h2>
+		<p>
+			This website is operated and maintained by:
+		</p>
+		<p>
+			networkteam GmbH<br/>
+			Kleiner Kuhberg 42<br/>
+			24103 Kiel<br/>
+			Germany<br/>
+			info@networkteam.com<br/>
+			+49 431 5300600
+		</p>
+	</div>
+</f:section>
 
-  <title>planetflow3 - FLOW3 blogs and buzz</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="/favicon.ico">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
-  <link rel="stylesheet" href="{f:uri.resource(path: 'Media/Stylesheets/style.css')}">
-  <script src="{f:uri.resource(path: 'Media/JavaScripts/modernizr-1.7.min.js')}"></script>
-</head>
-
-<body>
-	<body>
-		<div id="container">
-			<header>
-				<h1>planetflow3</h1>
-				<p>
-					<span class="definition">|ˈplanit,flōˈθrē| noun</span> A metablog for FLOW3 blogs and buzz.
-					Powered by <a href="http://www.flow3.org">FLOW3</a>.
-				</p>
-		    </header>
-			<div id="main" role="main">
-				<f:for each="{items}" as="item">
-					<article class="item">
-						<div class="headline">
-							<h2><a href="{item.link}">{item.title -> f:raw()}</a></h2>
-							<span class="date">{item.publicationDate -> f:format.date(format: "M jS Y")}</span>
-							<a class="channel" href="{item.channel.url}">{item.channel.name}</a>
-						</div>
-						<f:if condition="{item.content}">
-						<f:then>
-							{item.content -> f:raw()}
-						</f:then>
-						<f:else>
-							{item.description -> f:raw()}
-						</f:else>
-						</f:if>
-						<p class="more">
-							<a href="{item.link}">Read full article</a>
-						</p>
-					</article>
-				</f:for>
-				<f:if condition="{hasNext}">
-					<p class="pagebrowser">
-						<f:link.action arguments="{page: nextPage}" class="next">Next</f:link.action>
-					</p>
-				</f:if>
+<f:section name="main">
+	<f:for each="{items}" as="item">
+		<article class="item">
+			<div class="headline">
+				<h2><a href="{item.link}">{item.title -> f:raw()}</a></h2>
+				<span class="date">{item.publicationDate -> f:format.date(format: "M jS Y")}</span>
+				<a class="channel" href="{item.channel.url}">{item.channel.name}</a>
 			</div>
-		</div>
-
-		<script src="{f:uri.resource(path: 'Media/JavaScripts/jquery-1.5.1.min.js')}"></script>
-		<script src="{f:uri.resource(path: 'Media/JavaScripts/jquery.infinitescroll.min.js')}"></script>
-		<script src="{f:uri.resource(path: 'Media/JavaScripts/script.js')}"></script>
-
-	</body>
-</html>
+			<f:if condition="{item.content}">
+			<f:then>
+				{item.content -> f:raw()}
+			</f:then>
+			<f:else>
+				{item.description -> f:raw()}
+			</f:else>
+			</f:if>
+			<p class="more">
+				<a href="{item.link}">Read full article</a>
+			</p>
+		</article>
+	</f:for>
+	<f:if condition="{hasNext}">
+		<p class="pagebrowser">
+			<f:link.action arguments="{page: nextPage}" class="next">Next</f:link.action>
+		</p>
+	</f:if>
+</f:section>

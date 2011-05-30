@@ -100,7 +100,7 @@ body {
 	background: -o-linear-gradient(top, #700016 0%,#99011e 200px); /* Opera11.10+ */
 	background: -ms-linear-gradient(top, #700016 0%,#99011e 200px); /* IE10+ */
 	background: linear-gradient(top, #700016 0%,#99011e 200px); /* W3C */
-
+	background-repeat: repeat-x;
 	text-align: center;
 }
 
@@ -109,12 +109,15 @@ body {
 	max-width: 1200px;
 	margin: 0 auto 0;
 	text-align: left;
+	position: relative;
 }
 #main {
 	background-color: #ffffff;
 	-moz-border-radius: 20px 20px 0 0;
 	-webkit-border-radius: 20px 20px 0 0;
 	box-shadow: 0px 0px 10px #501;
+	-moz-box-shadow: 0px 0px 10px #501;
+	-webkit-box-shadow: 0px 0px 10px #501;
 }
 header {
 	font-family: 'Share-Regular';
@@ -124,7 +127,8 @@ header h1 {
 	font-weight: normal;
 	color: #ffffff;
 	text-shadow: 0px 0px 6px #501;
-	margin: 50px 0 0 40px;
+	margin: 0 0 0 40px;
+	padding-top: 50px;
 }
 header a, header a:hover, header a:visited {
 	color: #E56508;
@@ -141,6 +145,37 @@ header p {
 }
 header p .definition {
 	font-weight: bold;
+}
+#metamenu {
+	position: absolute;
+	top: 10px;
+	right: 40px;
+}
+#metamenu a {
+	color: #eee;
+}
+#imprint {
+	width: 400px;
+	position: absolute;
+	top: 30px;
+	right: 40px;
+	background: #ddd;
+	border-radius: 10px;
+	padding: 10px;
+	text-shadow: 1px 1px 0 #eee;
+	box-shadow: 0px 0px 10px #555;
+	-moz-box-shadow: 0px 0px 10px #555;
+	-webkit-box-shadow: 0px 0px 10px #555;
+	display: none;
+}
+.no-js #imprint {
+	display: block;
+}
+#imprint h2 {
+	margin-bottom: 0.5em;
+}
+#imprint p {
+	margin-bottom: 0.5em;
 }
 
 article.item {

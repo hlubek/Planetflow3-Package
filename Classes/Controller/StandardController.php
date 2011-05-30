@@ -60,6 +60,6 @@ class StandardController extends \F3\FLOW3\MVC\Controller\ActionController {
 		$this->view->assign('hasNext', $offset + $this->perPage <= $count);
 		$this->view->assign('nextPage', $page + 1);
 	}
-	
+
 }
 ?>
