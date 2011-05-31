@@ -27,45 +27,66 @@ namespace F3\Planetflow3\Controller;
  *
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class ChannelController extends \F3\FLOW3\MVC\Controller\ActionController {
+class LoginController extends \F3\FLOW3\MVC\Controller\ActionController {
 
 	/**
 	 * @inject
-	 * @var \F3\Planetflow3\Domain\Repository\ChannelRepository
+	 * @var \F3\FLOW3\Security\Authentication\AuthenticationManagerInterface
 	 */
-	protected $channelRepository;
+	protected $authenticationManager;
 
 	/**
-	 * Index action
+	 * Default action, displays the login screen
 	 *
+	 * @param string $username Optional: A username to prefill into the username field
 	 * @return void
+	 * @author Robert Lemke <robert@typo3.org>
 	 */
-	public function indexAction() {
-		$channels = $this->channelRepository->findAll();
-		$this->view->assign('channels', $channels);
+	public function indexAction($username = NULL) {
+		$this->view->assign('username', $username);
 	}
 
 	/**
-	 * New action
+	 * Authenticates an account by invoking the Provider based Authentication Manager.
 	 *
-	 * @param \F3\Planetflow3\Domain\Model\Channel $channel
+	 * On successful authentication redirects to the backend, otherwise returns
+	 * to the login screen.
+	 *
+	 * Note: You need to send the username and password these two POST parameters:
+	 *       F3[FLOW3][Security][Authentication][Token][UsernamePassword][username]
+	 *   and F3[FLOW3][Security][Authentication][Token][UsernamePassword][password]
+	 *
 	 * @return void
-	 * @dontvalidate $channel
+	 * @author Robert Lemke <robert@typo3.org>
 	 */
-	public function newAction(\F3\Planetflow3\Domain\Model\Channel $channel = NULL) {
-		$this->view->assign('channel', $channel);
+	public function authenticateAction() {
+		$authenticated = FALSE;
+		try {
+			$this->authenticationManager->authenticate();
+			$authenticated = TRUE;
+		} catch (\F3\FLOW3\Security\Exception\AuthenticationRequiredException $exception) {
+			throw $exception;
+		}
+
+		if ($authenticated) {
+			$this->redirect('index', 'Channel');
+		} else {
+			$this->flashMessageContainer->add('Wrong username or password.');
+			$this->redirect('index', 'Login');
+		}
 	}
 
 	/**
-	 * Create action
+	 * Logs out a - possibly - currently logged in account.
 	 *
-	 * @param \F3\Planetflow3\Domain\Model\Channel $channel
 	 * @return void
+	 * @author Robert Lemke <robert@typo3.org>
+	 * @extdirect
 	 */
-	public function createAction(\F3\Planetflow3\Domain\Model\Channel $channel) {
-		$this->channelRepository->add($channel);
+	public function logoutAction() {
+		$this->authenticationManager->logout();
 
-		$this->flashMessageContainer->add('Channel created.');
+		$this->flashMessageContainer->add('Successfully logged out.');
 		$this->redirect('index');
 	}
 

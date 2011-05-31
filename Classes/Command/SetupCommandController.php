@@ -48,6 +48,18 @@ class SetupCommandController extends \F3\FLOW3\MVC\Controller\CommandController 
 	protected $categoryRepository;
 
 	/**
+	 * @inject
+	 * @var \F3\FLOW3\Security\AccountRepository
+	 */
+	protected $accountRepository;
+
+	/**
+	 * @inject
+	 * @var \F3\FLOW3\Security\AccountFactory
+	 */
+	protected $accountFactory;
+
+	/**
 	 * Create sample data
 	 *
 	 * @return void
@@ -131,6 +143,37 @@ class SetupCommandController extends \F3\FLOW3\MVC\Controller\CommandController 
 			echo "Fetching items for {$channel->getFeedUrl()}..." . PHP_EOL;
 			$channel->fetchItems();
 			echo "Done fetching items." . PHP_EOL;
+		}
+	}
+
+	/**
+	 * Create a user for administration
+	 *
+	 * @param string $identifier
+	 * @return void
+	 */
+	public function createUserCommand($identifier) {
+		$uuid = \F3\FLOW3\Utility\Algorithms::generateUUID();
+		$password = substr($uuid, 0, 10);
+		$account = $this->accountFactory->createAccountWithPassword($identifier, $password, array('Administrator'));
+		$this->accountRepository->add($account);
+		echo "Password: $password" . PHP_EOL;
+	}
+
+	/**
+	 * Detect languages
+	 *
+	 * @return void
+	 */
+	public function classifyLanguagesCommand() {
+		$textcat = new \F3\Libtextcat\Textcat();
+		$items = $this->itemRepository->findAll();
+		foreach ($items as $item) {
+			$language = $textcat->classify($item->getDescription() . ' ' . $item->getContent());
+			if ($language !== FALSE) {
+				echo "Detected language $language for " . $item->getUniversalIdentifier() . PHP_EOL;
+				$item->setLanguage($language);
+			}
 		}
 	}
 

@@ -9,10 +9,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
   <f:base />
-
   <title>planetflow3 - FLOW3 blogs and buzz</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <meta name="description" content="A planet full of FLOW3 blogs and buzz.">
+  <meta name="author" content="Christopher Hlubek - networkteam GmbH">
+
+  <link rel="alternate" type="application/rss+xml" title="planetflow3 - RSS" href="{f:uri.action(controller: 'standard', action: 'feed', arguments: {language: language}, format: 'xml', absolute: 'true')}" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="/favicon.ico">
@@ -26,18 +27,35 @@
 	<body>
 		<div id="container">
 			<header>
-				<h1>planetflow3</h1>
+				<h1><f:link.action controller="Standard" action="index">planetflow3</f:link.action></h1>
 				<p>
-					<span class="definition">|ˈplanit,flōˈθrē| noun</span> A metablog for FLOW3 blogs and buzz.
+					<span class="definition">|ˈplanit,flōˈθrē| metablog</span> A planet full of FLOW3 blogs and buzz.
 					Powered by <a href="http://www.flow3.org">FLOW3</a>.
 				</p>
 				<div id="metamenu">
+					<!--
+					<a href="#">Suggest a channel</a>
+					<f:link.action controller="Login" action="index">Login</f:link.action>
+					-->
 					<a href="#imprint" class="imprint">Imprint</a>
 				</div>
 		    </header>
-			<f:render section="container" />
 			<div id="main" role="main">
 				<f:render section="main" />
+			</div>
+			<div id="imprint">
+				<h2>Imprint / Impressum</h2>
+				<p>
+					This website is operated and maintained by:
+				</p>
+				<p>
+					networkteam GmbH<br/>
+					Kleiner Kuhberg 42<br/>
+					24103 Kiel<br/>
+					Germany<br/>
+					info@networkteam.com<br/>
+					+49 431 5300600
+				</p>
 			</div>
 		</div>
 

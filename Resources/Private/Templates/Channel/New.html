@@ -1,0 +1,27 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+	<h2>New channel</h2>
+	<f:form class="channel" action="create" name="channel" object="{channel}">
+		<f:flashMessages class="errorMessages" />
+		<div class="fields">
+			<label>Name</label>
+			<f:form.textfield property="name" />
+		</div>
+		<div class="fields">
+			<label>URL</label>
+			<f:form.textfield property="url" />
+		</div>
+		<div class="fields">
+			<label>Feed-URL</label>
+			<f:form.textfield property="feedUrl" />
+		</div>
+		<div class="fields">
+			<label>Filter</label>
+			<f:form.textfield property="filter" />
+		</div>
+		<div class="actions">
+			<f:form.submit value="Save" />
+		</div>
+	</f:form>
+</f:section>

@@ -1,3 +1,14 @@
+##
+# Feeds
+
+-
+  name: 'feed'
+  uriPattern: 'rss.xml'
+  defaults:
+    '@package':    'Planetflow3'
+    '@controller': 'Standard'
+    '@action':     'feed'
+    '@format':     'xml'
 
 ##
 # Default route

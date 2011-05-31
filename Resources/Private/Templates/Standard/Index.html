@@ -1,29 +1,26 @@
+{namespace p=F3\Planetflow3\ViewHelpers}
+
 <f:layout name="Default" />
 
-<f:section name="container">
-	<div id="imprint">
-		<h2>Imprint</h2>
-		<p>
-			This website is operated and maintained by:
-		</p>
-		<p>
-			networkteam GmbH<br/>
-			Kleiner Kuhberg 42<br/>
-			24103 Kiel<br/>
-			Germany<br/>
-			info@networkteam.com<br/>
-			+49 431 5300600
-		</p>
-	</div>
-</f:section>
-
 <f:section name="main">
+	<f:if condition="{language}">
+		<div class="filter">
+			<f:link.action action="index" arguments="{language: null}" title="Remove language filter"><span>Language</span> <strong>{language -> p:languageName()}</strong></f:link.action>
+		</div>
+	</f:if>
+	<div class="articles">
 	<f:for each="{items}" as="item">
 		<article class="item">
 			<div class="headline">
 				<h2><a href="{item.link}">{item.title -> f:raw()}</a></h2>
 				<span class="date">{item.publicationDate -> f:format.date(format: "M jS Y")}</span>
 				<a class="channel" href="{item.channel.url}">{item.channel.name}</a>
+				<f:if condition="{language}">
+					<f:then></f:then>
+					<f:else>
+						<f:link.action action="index" arguments="{language: item.language}" class="language" title="View only posts in {item.language -> p:languageName(lowercase: 1)}">{item.language -> p:languageName()}</f:link.action>
+					</f:else>
+				</f:if>
 			</div>
 			<f:if condition="{item.content}">
 			<f:then>
@@ -38,9 +35,10 @@
 			</p>
 		</article>
 	</f:for>
+	</div>
 	<f:if condition="{hasNext}">
 		<p class="pagebrowser">
-			<f:link.action arguments="{page: nextPage}" class="next">Next</f:link.action>
+			<f:link.action action="index" arguments="{page: nextPage, language: language}" class="next">Next</f:link.action>
 		</p>
 	</f:if>
 </f:section>

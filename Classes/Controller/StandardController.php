@@ -45,13 +45,19 @@ class StandardController extends \F3\FLOW3\MVC\Controller\ActionController {
 	 * Index action
 	 *
 	 * @param integer $page
+	 * @param string $language
 	 * @return void
 	 */
-	public function indexAction($page = 1) {
+	public function indexAction($page = 1, $language = NULL) {
 		$offset = ($page - 1) * $this->perPage;
-		$count = $this->itemRepository->countAll();
-		$items = $this->itemRepository->findRecent($offset, $this->perPage);
+		if ($language === NULL) {
+			$count = $this->itemRepository->countAll();
+		} else {
+			$count = $this->itemRepository->countByLanguage($language);
+		}
+		$items = $this->itemRepository->findRecent($offset, $this->perPage, $language);
 
+		$this->view->assign('language', $language);
 		$this->view->assign('items', $items);
 		$this->view->assign('page', $page);
 		$this->view->assign('count', $count);
@@ -59,6 +65,19 @@ class StandardController extends \F3\FLOW3\MVC\Controller\ActionController {
 		$this->view->assign('perPage', $this->perPage);
 		$this->view->assign('hasNext', $offset + $this->perPage <= $count);
 		$this->view->assign('nextPage', $page + 1);
+	}
+
+	/**
+	 * Publish an aggregated feed
+	 *
+	 * @param string $language
+	 * @return void
+	 */
+	public function feedAction($language = NULL) {
+		$items = $this->itemRepository->findRecent(0, 20, $language);
+
+		$this->view->assign('language', $language);
+		$this->view->assign('items', $items);
 	}
 
 }

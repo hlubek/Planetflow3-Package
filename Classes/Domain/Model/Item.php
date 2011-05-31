@@ -85,6 +85,13 @@ class Item {
 	protected $publicationDate;
 
 	/**
+	 * Language of the item (ISO 2-letter)
+	 *
+	 * @var string
+	 */
+	protected $language;
+
+	/**
 	 * The channel
 	 * @var \F3\Planetflow3\Domain\Model\Channel
 	 * @ManyToOne(inversedBy="items")
@@ -317,6 +324,21 @@ class Item {
 	 */
 	public function setPublicationDate($publicationDate) {
 		$this->publicationDate = $publicationDate;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLanguage() {
+		return $this->language;
+	}
+
+	/**
+	 * @param string $language
+	 * @return void
+	 */
+	public function setLanguage($language) {
+		$this->language = $language;
 	}
 
 	/**

@@ -1,0 +1,17 @@
+#                                                                        #
+# Security policy for the Planetflow3 package                            #
+#                                                                        #
+
+# @package Planetflow3
+
+resources:
+  methods:
+    F3_Planetflow3_ChannelController: "method(F3\Planetflow3\Controller\ChannelController->.*Action())"
+
+roles:
+  Administrator: []
+
+acls:
+  Administrator:
+    methods:
+      F3_Planetflow3_ChannelController: GRANT

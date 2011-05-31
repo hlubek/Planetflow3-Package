@@ -34,18 +34,21 @@ class Channel {
 	/**
 	 * The name
 	 * @var string
+	 * @validate NotEmpty, Label
 	 */
 	protected $name;
 
 	/**
 	 * The url for linking the channel
 	 * @var string
+	 * @validate NotEmpty
 	 */
 	protected $url;
 
 	/**
 	 * The feed url
 	 * @var string
+	 * @validate NotEmpty
 	 */
 	protected $feedUrl;
 
@@ -105,6 +108,8 @@ class Channel {
 			$availableCategoriesByName[$availableCategory->getName()] = $availableCategory;
 		}
 
+		$textcat = new \F3\Libtextcat\Textcat();
+
 		$existingUniversalIdentifiers = array();
 		foreach ($this->items as $item) {
 			$existingUniversalIdentifiers[$item->getUniversalIdentifier()] = TRUE;
@@ -146,6 +151,12 @@ class Channel {
 			}
 
 			if ($item->matchesChannel($this)) {
+				$language = $textcat->classify($item->getDescription() . ' ' . $item->getContent());
+				if ($language !== FALSE) {
+					echo "Detected language $language for " . $item->getUniversalIdentifier() . PHP_EOL;
+					$item->setLanguage($language);
+				}
+
 				$this->addItem($item);
 				$existingUniversalIdentifiers[$item->getUniversalIdentifier()] = TRUE;
 			} else {

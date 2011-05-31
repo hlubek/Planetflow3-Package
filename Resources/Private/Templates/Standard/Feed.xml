@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.00">
+<channel>
+<title>planetflow3</title>
+<link>http://www.planetflow3.com</link>
+<description>FLOW3 blogs and buzz.</description>
+<f:if condition="{language}">
+<language>{language}</language>
+</f:if>
+<f:for each="{items}" as="item">
+<item>
+<title>{item.title -> f:escape()}</title>
+<link>{item.link}</link>
+<description>
+<f:if condition="{item.content}">
+	<f:then>{item.content -> f:escape()}</f:then>
+	<f:else>{item.description -> f:escape()}</f:else>
+</f:if>
+</description>
+<f:for each="{item.categories}" as="category">
+<category>{category.name}</category>
+</f:for>
+<guid>{item.universalIdentifier}</guid>
+<pubDate>{item.publicationDate -> f:format.date()}</pubDate>
+</item>
+</f:for>
+</channel>
+</rss>

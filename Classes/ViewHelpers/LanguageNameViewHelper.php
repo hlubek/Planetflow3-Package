@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8');
-namespace F3\Planetflow3\Domain\Repository;
+namespace F3\Planetflow3\ViewHelpers;
 
 /*                                                                        *
  * This script belongs to the FLOW3 package "Planetflow3".                *
@@ -23,30 +23,42 @@ namespace F3\Planetflow3\Domain\Repository;
  *                                                                        */
 
 /**
- * A repository for Items
+ * A view helper to output the name of a language
  *
- * @package Planetflow3
- * @subpackage Domain
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class ItemRepository extends \F3\FLOW3\Persistence\Repository {
+class LanguageNameViewHelper extends \F3\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 *
-	 * @param integer $offset
-	 * @param integer $limit
+	 * 
 	 * @param string $language
-	 * @return \F3\FLOW3\Persistence\QueryResultInterface
+	 * @param boolean $lowercase
+	 * @return string
+	 * @author Christopher Hlubek <hlubek@networkteam.com>
 	 */
-	public function findRecent($offset = 0, $limit = 10, $language = NULL) {
-		$query = $this->createQuery();
-		if ($language !== NULL) {
-			$query->matching($query->equals('language', $language));
+	public function render($language = NULL, $lowercase = FALSE) {
+		if ($language === NULL) {
+			$language = $this->renderChildren();
 		}
-		$query->setOrderings(array('publicationDate' => \F3\FLOW3\Persistence\QueryInterface::ORDER_DESCENDING));
-		$query->setOffset($offset);
-		$query->setLimit($limit);
-		return $query->execute();
+		$label = $language;
+		switch($language) {
+			case 'en':
+				$label = 'English';
+				break;
+			case 'de':
+				$label = 'German';
+				break;
+			case 'fr':
+				$label = 'French';
+				break;
+			case 'es':
+				$lable = 'Spanish';
+				break;
+		}
+		if ($lowercase) {
+			$label = strtolower($label);
+		}
+		return $label;
 	}
 
 }
