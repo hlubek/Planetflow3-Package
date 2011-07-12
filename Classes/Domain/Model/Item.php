@@ -158,6 +158,33 @@ class Item {
 	}
 
 	/**
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	public function cleanHtml($content) {
+		$cleanupPatterns = array(
+			// Filter out flattr buttons
+			array('/<p><a.*?title="Flattr".*?<\/a><\/p>/is', ''),
+			// Filter out shareaholic toolbar
+			array('/<div>\s*<ul>.*?<\/ul><div><\/div><div><a[^>]*>Get Shareaholic<\/a><\/div><div><\/div><\/div>/is', ''),
+			// Filter out google tracking pixel
+			array('/<div><img width="1" height="1"[^>]*>\s*<\/div>/is', ''),
+			// Remove empty paragraphs
+			array('/<p>\s*<\/p>/is', ''),
+			// Remove empty divs
+			array('/<div>\s*<\/div>/is', ''),
+			// Introduce wrapping paragraph around text
+			array('/^\s*([^<].*[^>])\s*$/is', '<p>$1</p>')
+		);
+		foreach ($cleanupPatterns as $cleanupPattern) {
+			list($pattern, $replacement) = $cleanupPattern;
+			$content = preg_replace($pattern, $replacement, $content);
+		}
+		return $content;
+	}
+
+	/**
 	 * Get the Item's title
 	 *
 	 * @return string The Item's title
@@ -214,7 +241,7 @@ class Item {
 		if ($description === NULL) {
 			$description = '';
 		}
-		$this->description = $description;
+		$this->description = $this->cleanHtml($description);
 	}
 
 	/**
@@ -236,7 +263,7 @@ class Item {
 		if ($content === NULL) {
 			$content = '';
 		}
-		$this->content = $content;
+		$this->content = $this->cleanHtml($content);
 	}
 
 	/**

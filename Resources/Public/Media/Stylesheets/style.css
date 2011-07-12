@@ -208,6 +208,7 @@ article.item h2 {
 	line-height: 1em;
 	color: #333;
 	margin-bottom: 8px;
+	margin-right: 110px;
 }
 article.item h2 a {
 	color: #333;
@@ -218,6 +219,7 @@ article.item h2 a:hover {
 }
 
 article .headline {
+	position: relative;
 	margin-bottom: 18px;
 }
 article .headline .channel, article .headline .date {
@@ -244,6 +246,11 @@ article .headline .channel:hover {
 article .headline .language {
 	font-family: Arial,Helvetica,sans-serif;
 	font-size: 90%;
+}
+article .headline .sharing {
+	position: absolute;
+	top: 0px;
+	right: 0px;
 }
 article b, article strong {
 	font-weight: bold;

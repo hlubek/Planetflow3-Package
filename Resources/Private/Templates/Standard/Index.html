@@ -21,6 +21,7 @@
 						<f:link.action action="index" arguments="{language: item.language}" class="language" title="View only posts in {item.language -> p:languageName(lowercase: 1)}">{item.language -> p:languageName()}</f:link.action>
 					</f:else>
 				</f:if>
+				<div class="sharing"><g:plusone href="{item.link}"></g:plusone></div>
 			</div>
 			<f:if condition="{item.content}">
 			<f:then>

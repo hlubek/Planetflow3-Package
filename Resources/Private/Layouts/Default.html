@@ -24,44 +24,43 @@
 </head>
 
 <body>
-	<body>
-		<div id="container">
-			<header>
-				<h1><f:link.action controller="Standard" action="index">planetflow3</f:link.action></h1>
-				<p>
-					<span class="definition">|ˈplanit,flōˈθrē| metablog</span> A planet full of FLOW3 blogs and buzz.
-					Powered by <a href="http://www.flow3.org">FLOW3</a>.
-				</p>
-				<div id="metamenu">
-					<!--
-					<a href="#">Suggest a channel</a>
-					<f:link.action controller="Login" action="index">Login</f:link.action>
-					-->
-					<a href="#imprint" class="imprint">Imprint</a>
-				</div>
-		    </header>
-			<div id="main" role="main">
-				<f:render section="main" />
+	<div id="container">
+		<header>
+			<h1><f:link.action controller="Standard" action="index">planetflow3</f:link.action></h1>
+			<p>
+				<span class="definition">|ˈplanit,flōˈθrē| metablog</span> A planet full of FLOW3 blogs and buzz.
+				Powered by <a href="http://www.flow3.org">FLOW3</a>.
+			</p>
+			<div id="metamenu">
+				<!--
+				<a href="#">Suggest a channel</a>
+				<f:link.action controller="Login" action="index">Login</f:link.action>
+				-->
+				<a href="#imprint" class="imprint">Imprint</a>
 			</div>
-			<div id="imprint">
-				<h2>Imprint / Impressum</h2>
-				<p>
-					This website is operated and maintained by:
-				</p>
-				<p>
-					networkteam GmbH<br/>
-					Kleiner Kuhberg 42<br/>
-					24103 Kiel<br/>
-					Germany<br/>
-					info@networkteam.com<br/>
-					+49 431 5300600
-				</p>
-			</div>
+		</header>
+		<div id="main" role="main">
+			<f:render section="main" />
 		</div>
+		<div id="imprint">
+			<h2>Imprint / Impressum</h2>
+			<p>
+				This website is operated and maintained by:
+			</p>
+			<p>
+				networkteam GmbH<br/>
+				Kleiner Kuhberg 42<br/>
+				24103 Kiel<br/>
+				Germany<br/>
+				info@networkteam.com<br/>
+				+49 431 5300600
+			</p>
+		</div>
+	</div>
 
-		<script src="{f:uri.resource(path: 'Media/JavaScripts/jquery-1.5.1.min.js')}"></script>
-		<script src="{f:uri.resource(path: 'Media/JavaScripts/jquery.infinitescroll.min.js')}"></script>
-		<script src="{f:uri.resource(path: 'Media/JavaScripts/script.js')}"></script>
-
-	</body>
+	<script src="{f:uri.resource(path: 'Media/JavaScripts/jquery-1.5.1.min.js')}"></script>
+	<script src="{f:uri.resource(path: 'Media/JavaScripts/jquery.infinitescroll.min.js')}"></script>
+	<script src="{f:uri.resource(path: 'Media/JavaScripts/script.js')}"></script>
+	<script src="https://apis.google.com/js/plusone.js"></script>
+</body>
 </html>

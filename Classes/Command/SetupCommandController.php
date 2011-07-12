@@ -177,5 +177,18 @@ class SetupCommandController extends \F3\FLOW3\MVC\Controller\CommandController 
 		}
 	}
 
+	/**
+	 * Apply filters
+	 *
+	 * @return void
+	 */
+	public function applyFiltersCommand() {
+		$items = $this->itemRepository->findAll();
+		foreach ($items as $item) {
+			$item->setDescription($item->getDescription());
+			$item->setContent($item->getContent());
+		}
+	}
+
 }
 ?>
