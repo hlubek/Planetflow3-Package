@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8');
-namespace F3\Planetflow3\Domain\Repository;
+namespace Planetflow3\Domain\Repository;
 
 /*                                                                        *
  * This script belongs to the FLOW3 package "Planetflow3".                *
@@ -29,7 +29,7 @@ namespace F3\Planetflow3\Domain\Repository;
  * @subpackage Domain
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class CategoryRepository extends \F3\FLOW3\Persistence\Repository {
+class CategoryRepository extends \TYPO3\FLOW3\Persistence\Repository {
 
 	// add customized methods here
 

@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8');
-namespace F3\Planetflow3\Domain\Model;
+namespace Planetflow3\Domain\Model;
 
 /*                                                                        *
  * This script belongs to the FLOW3 package "Planetflow3".                *
@@ -60,7 +60,7 @@ class Channel {
 
 	/**
 	 * Assign a default category when the item has no category (e.g. missing in feed)
-	 * @var \F3\Planetflow3\Domain\Model\Category
+	 * @var \Planetflow3\Domain\Model\Category
 	 * @ManyToOne
 	 */
 	protected $defaultCategory;
@@ -73,14 +73,14 @@ class Channel {
 
 	/**
 	 * Items published by this channel
-	 * @var \Doctrine\Common\Collections\ArrayCollection<\F3\Planetflow3\Domain\Model\Item>
+	 * @var \Doctrine\Common\Collections\ArrayCollection<\Planetflow3\Domain\Model\Item>
 	 * @OneToMany(mappedBy="channel", cascade={"all"})
 	 */
 	protected $items;
 
 	/**
 	 * @inject
-	 * @var \F3\Planetflow3\Domain\Repository\CategoryRepository
+	 * @var \Planetflow3\Domain\Repository\CategoryRepository
 	 */
 	protected $categoryRepository;
 
@@ -108,7 +108,7 @@ class Channel {
 			$availableCategoriesByName[$availableCategory->getName()] = $availableCategory;
 		}
 
-		$textcat = new \F3\Libtextcat\Textcat();
+		$textcat = new \Libtextcat\Textcat();
 
 		$existingUniversalIdentifiers = array();
 		foreach ($this->items as $item) {
@@ -117,7 +117,7 @@ class Channel {
 
 		$feedItems = $simplePie->get_items();
 		foreach ($feedItems as $feedItem) {
-			$item = new \F3\Planetflow3\Domain\Model\Item();
+			$item = new \Planetflow3\Domain\Model\Item();
 			$item->setUniversalIdentifier($feedItem->get_id());
 			if (isset($existingUniversalIdentifiers[$item->getUniversalIdentifier()])) {
 				echo "Skipped " . $item->getUniversalIdentifier() . ", already fetched." . PHP_EOL;
@@ -142,7 +142,7 @@ class Channel {
 					} else {
 						echo "Skipped category " . $term . PHP_EOL;
 					}
-					
+
 				}
 			}
 
@@ -257,14 +257,14 @@ class Channel {
 	}
 
 	/**
-	 * @return \Doctrine\Common\Collections\ArrayCollection<\F3\Planetflow3\Domain\Model\Item>
+	 * @return \Doctrine\Common\Collections\ArrayCollection<\Planetflow3\Domain\Model\Item>
 	 */
 	public function getItems() {
 		return $this->items;
 	}
 
 	/**
-	 * @param \Doctrine\Common\Collections\ArrayCollection<\F3\Planetflow3\Domain\Model\Item> $items
+	 * @param \Doctrine\Common\Collections\ArrayCollection<\Planetflow3\Domain\Model\Item> $items
 	 * @return void
 	 */
 	public function setItems(\Doctrine\Common\Collections\ArrayCollection $items) {
@@ -273,17 +273,17 @@ class Channel {
 
 	/**
 	 *
-	 * @param \F3\Planetflow3\Domain\Model\Item $item
+	 * @param \Planetflow3\Domain\Model\Item $item
 	 * @return void
 	 */
-	public function addItem(\F3\Planetflow3\Domain\Model\Item $item) {
+	public function addItem(\Planetflow3\Domain\Model\Item $item) {
 		$item->setChannel($this);
 		$this->items->add($item);
 	}
 
 	/**
 	 *
-	 * @return \F3\Planetflow3\Domain\Model\Category
+	 * @return \Planetflow3\Domain\Model\Category
 	 */
 	public function getDefaultCategory() {
 		return $this->defaultCategory;
@@ -291,10 +291,10 @@ class Channel {
 
 	/**
 	 *
-	 * @param \F3\Planetflow3\Domain\Model\Category $defaultCategory
+	 * @param \Planetflow3\Domain\Model\Category $defaultCategory
 	 * @return void
 	 */
-	public function setDefaultCategory(\F3\Planetflow3\Domain\Model\Category $defaultCategory) {
+	public function setDefaultCategory(\Planetflow3\Domain\Model\Category $defaultCategory) {
 		$this->defaultCategory = $defaultCategory;
 	}
 

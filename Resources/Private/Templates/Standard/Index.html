@@ -1,4 +1,4 @@
-{namespace p=F3\Planetflow3\ViewHelpers}
+{namespace p=Planetflow3\ViewHelpers}
 
 <f:layout name="Default" />
 
@@ -12,7 +12,6 @@
 	<f:for each="{items}" as="item">
 		<article class="item">
 			<div class="headline">
-				<h2><a href="{item.link}">{item.title -> f:raw()}</a></h2>
 				<span class="date">{item.publicationDate -> f:format.date(format: "M jS Y")}</span>
 				<a class="channel" href="{item.channel.url}">{item.channel.name}</a>
 				<f:if condition="{language}">
@@ -21,8 +20,8 @@
 						<f:link.action action="index" arguments="{language: item.language}" class="language" title="View only posts in {item.language -> p:languageName(lowercase: 1)}">{item.language -> p:languageName()}</f:link.action>
 					</f:else>
 				</f:if>
-				<div class="sharing"><g:plusone href="{item.link}"></g:plusone></div>
 			</div>
+			<h2><a href="{item.link}">{item.title -> f:raw()}</a></h2>
 			<f:if condition="{item.content}">
 			<f:then>
 				{item.content -> f:raw()}
@@ -34,6 +33,7 @@
 			<p class="more">
 				<a href="{item.link}">Read full article</a>
 			</p>
+			<div class="sharing"><g:plusone href="{item.link}"></g:plusone></div>
 		</article>
 	</f:for>
 	</div>

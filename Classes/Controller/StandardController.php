@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8');
-namespace F3\Planetflow3\Controller;
+namespace Planetflow3\Controller;
 
 /*                                                                        *
  * This script belongs to the FLOW3 package "Planetflow3".                *
@@ -23,15 +23,15 @@ namespace F3\Planetflow3\Controller;
  *                                                                        */
 
 /**
- * Standard controller for the Planetflow3 package 
+ * Standard controller for the Planetflow3 package
  *
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class StandardController extends \F3\FLOW3\MVC\Controller\ActionController {
+class StandardController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 
 	/**
 	 * @inject
-	 * @var \F3\Planetflow3\Domain\Repository\ItemRepository
+	 * @var \Planetflow3\Domain\Repository\ItemRepository
 	 */
 	protected $itemRepository;
 
@@ -65,6 +65,8 @@ class StandardController extends \F3\FLOW3\MVC\Controller\ActionController {
 		$this->view->assign('perPage', $this->perPage);
 		$this->view->assign('hasNext', $offset + $this->perPage <= $count);
 		$this->view->assign('nextPage', $page + 1);
+
+		// TODO Send correct cache control including last modified
 	}
 
 	/**
@@ -78,6 +80,10 @@ class StandardController extends \F3\FLOW3\MVC\Controller\ActionController {
 
 		$this->view->assign('language', $language);
 		$this->view->assign('items', $items);
+
+		$this->response->setHeader('Content-Type', 'application/rss+xml; charset=UTF-8');
+
+		// TODO Send correct cache control including last modified
 	}
 
 }

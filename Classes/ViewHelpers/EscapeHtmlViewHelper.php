@@ -23,42 +23,33 @@ namespace Planetflow3\ViewHelpers;
  *                                                                        */
 
 /**
- * A view helper to output the name of a language
+ * A view helper to propertly escape HTML like content for feed elements that don't
+ * accept HTML (e.g. title).
+ *
+ * See http://www.rssboard.org/rss-profile#data-types-characterdata or
+ *     http://validator.w3.org/feed/docs/warning/ContainsHTML.html for more information.
  *
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class LanguageNameViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
+class EscapeHtmlViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * 
-	 * @param string $language
-	 * @param boolean $lowercase
+	 * Escape the given value
+	 *
+	 * @param string $value
 	 * @return string
 	 * @author Christopher Hlubek <hlubek@networkteam.com>
 	 */
-	public function render($language = NULL, $lowercase = FALSE) {
-		if ($language === NULL) {
-			$language = $this->renderChildren();
+	public function render($value = NULL) {
+		if ($value === NULL) {
+			$value = $this->renderChildren();
 		}
-		$label = $language;
-		switch($language) {
-			case 'en':
-				$label = 'English';
-				break;
-			case 'de':
-				$label = 'German';
-				break;
-			case 'fr':
-				$label = 'French';
-				break;
-			case 'es':
-				$lable = 'Spanish';
-				break;
-		}
-		if ($lowercase) {
-			$label = strtolower($label);
-		}
-		return $label;
+		$value = str_replace(
+			array('&amp;', '<', '>'),
+			array('&#x26;', '&#x3C;', '&#x3E;'),
+			$value
+		);
+		return htmlspecialchars($value, NULL, NULL, FALSE);
 	}
 
 }

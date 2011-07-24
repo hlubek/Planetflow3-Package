@@ -9,7 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
   <f:base />
-  <title>planetflow3 - FLOW3 blogs and buzz</title>
+  <title>Planet FLOW3 - FLOW3 blogs and buzz</title>
   <meta name="description" content="A planet full of FLOW3 blogs and buzz.">
   <meta name="author" content="Christopher Hlubek - networkteam GmbH">
 
@@ -26,7 +26,7 @@
 <body>
 	<div id="container">
 		<header>
-			<h1><f:link.action controller="Standard" action="index">planetflow3</f:link.action></h1>
+			<h1><f:link.action controller="Standard" action="index">Planet<span>FLOW3</span></f:link.action></h1>
 			<p>
 				<span class="definition">|ˈplanit,flōˈθrē| metablog</span> A planet full of FLOW3 blogs and buzz.
 				Powered by <a href="http://www.flow3.org">FLOW3</a>.
@@ -41,6 +41,25 @@
 		</header>
 		<div id="main" role="main">
 			<f:render section="main" />
+		</div>
+		<div id="navigations">
+			<nav class="language-switcher">
+				<h4>Language</h4>
+				<ul>
+					<li class="active"><a href="#">All</a></li>
+					<li><a href="#">English</a></li>
+					<li><a href="#">German</a></li>
+				</ul>
+			</nav>
+			<nav class="feeds">
+				<h4>Monitored feeds</h4>
+				<ul>
+					<li><a href="#">Robert Lemke - Fluent Code Artisan</a></li>
+					<li><a href="#">layh.com</a></li>
+					<li><a href="#">networkteam.com Blog</a></li>
+				</ul>
+			</nav>
+			<a href="" class="rss">Subscribe RSS feed</a>
 		</div>
 		<div id="imprint">
 			<h2>Imprint / Impressum</h2>

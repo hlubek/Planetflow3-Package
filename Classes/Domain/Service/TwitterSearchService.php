@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8');
-namespace Planetflow3\ViewHelpers;
+namespace Planetflow3\Domain\Service;
 
 /*                                                                        *
  * This script belongs to the FLOW3 package "Planetflow3".                *
@@ -23,42 +23,20 @@ namespace Planetflow3\ViewHelpers;
  *                                                                        */
 
 /**
- * A view helper to output the name of a language
+ * A twiiter search service
  *
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class LanguageNameViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
+class TwitterSearchService {
 
 	/**
 	 * 
-	 * @param string $language
-	 * @param boolean $lowercase
-	 * @return string
-	 * @author Christopher Hlubek <hlubek@networkteam.com>
 	 */
-	public function render($language = NULL, $lowercase = FALSE) {
-		if ($language === NULL) {
-			$language = $this->renderChildren();
-		}
-		$label = $language;
-		switch($language) {
-			case 'en':
-				$label = 'English';
-				break;
-			case 'de':
-				$label = 'German';
-				break;
-			case 'fr':
-				$label = 'French';
-				break;
-			case 'es':
-				$lable = 'Spanish';
-				break;
-		}
-		if ($lowercase) {
-			$label = strtolower($label);
-		}
-		return $label;
+	public function findTweets($query) {
+		$url = 'http://search.twitter.com/search.json?q=' . urlencode($query);
+		$result = file_get_contents($url);
+		$tweets = json_decode($result, TRUE);
+		
 	}
 
 }

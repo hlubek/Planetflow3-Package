@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8');
-namespace F3\Planetflow3\Domain\Model;
+namespace Planetflow3\Domain\Model;
 
 /*                                                                        *
  * This script belongs to the FLOW3 package "Planetflow3".                *
@@ -33,7 +33,7 @@ class Category {
 
 	/**
 	 * The name of this category
-	 * 
+	 *
 	 * @var string
 	 * @identifier
 	 * @Id

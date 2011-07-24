@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.00">
+{namespace p=Planetflow3\ViewHelpers}<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
 <channel>
 <title>planetflow3</title>
 <link>http://www.planetflow3.com</link>
@@ -9,19 +9,19 @@
 </f:if>
 <f:for each="{items}" as="item">
 <item>
-<title>{item.title -> f:escape()}</title>
+<title>{item.title -> p:escapeHtml()}</title>
 <link>{item.link}</link>
 <description>
 <f:if condition="{item.content}">
-	<f:then>{item.content -> f:escape()}</f:then>
-	<f:else>{item.description -> f:escape()}</f:else>
+<f:then>{item.content -> f:escape()}</f:then>
+<f:else>{item.description -> f:escape()}</f:else>
 </f:if>
 </description>
 <f:for each="{item.categories}" as="category">
 <category>{category.name}</category>
 </f:for>
 <guid>{item.universalIdentifier}</guid>
-<pubDate>{item.publicationDate -> f:format.date()}</pubDate>
+<pubDate>{item.publicationDate -> f:format.date(format: 'D, d M Y H:i:s O')}</pubDate>
 </item>
 </f:for>
 </channel>

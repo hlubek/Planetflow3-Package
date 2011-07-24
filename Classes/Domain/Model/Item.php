@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8');
-namespace F3\Planetflow3\Domain\Model;
+namespace Planetflow3\Domain\Model;
 
 /*                                                                        *
  * This script belongs to the FLOW3 package "Planetflow3".                *
@@ -73,7 +73,7 @@ class Item {
 
 	/**
 	 * The categories
-	 * @var \Doctrine\Common\Collections\ArrayCollection<\F3\Planetflow3\Domain\Model\Category>
+	 * @var \Doctrine\Common\Collections\ArrayCollection<\Planetflow3\Domain\Model\Category>
 	 * @ManyToMany(cascade={"all"})
 	 */
 	protected $categories;
@@ -93,7 +93,7 @@ class Item {
 
 	/**
 	 * The channel
-	 * @var \F3\Planetflow3\Domain\Model\Channel
+	 * @var \Planetflow3\Domain\Model\Channel
 	 * @ManyToOne(inversedBy="items")
 	 */
 	protected $channel;
@@ -108,10 +108,10 @@ class Item {
 	/**
 	 * Check if this item matches the channel settings
 	 *
-	 * @param \F3\Planetflow3\Domain\Model\Channel $channel
+	 * @param \Planetflow3\Domain\Model\Channel $channel
 	 * @return boolean
 	 */
-	public function matchesChannel(\F3\Planetflow3\Domain\Model\Channel $channel) {
+	public function matchesChannel(\Planetflow3\Domain\Model\Channel $channel) {
 		return $this->matchesFilter($channel->getFilter()) &&
 				$this->matchesCategories($channel->getFetchedCategories());
 	}
@@ -307,10 +307,10 @@ class Item {
 	/**
 	 * Add a category to this item
 	 *
-	 * @param \F3\Planetflow3\Domain\Model\Category $category
+	 * @param \Planetflow3\Domain\Model\Category $category
 	 * @return void
 	 */
-	public function addCategory(\F3\Planetflow3\Domain\Model\Category $category) {
+	public function addCategory(\Planetflow3\Domain\Model\Category $category) {
 		$this->categories->add($category);
 	}
 
@@ -371,7 +371,7 @@ class Item {
 	/**
 	 * Get the Item's channel
 	 *
-	 * @return \F3\Planetflow3\Domain\Model\Channel The Item's channel
+	 * @return \Planetflow3\Domain\Model\Channel The Item's channel
 	 */
 	public function getChannel() {
 		return $this->channel;
@@ -380,10 +380,10 @@ class Item {
 	/**
 	 * Sets this Item's channel
 	 *
-	 * @param \F3\Planetflow3\Domain\Model\Channel $channel The Item's channel
+	 * @param \Planetflow3\Domain\Model\Channel $channel The Item's channel
 	 * @return void
 	 */
-	public function setChannel(\F3\Planetflow3\Domain\Model\Channel $channel) {
+	public function setChannel(\Planetflow3\Domain\Model\Channel $channel) {
 		$this->channel = $channel;
 	}
 

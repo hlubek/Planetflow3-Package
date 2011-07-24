@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8');
-namespace F3\Planetflow3\Command;
+namespace Planetflow3\Command;
 
 /*                                                                        *
  * This script belongs to the FLOW3 package "Planetflow3".                *
@@ -27,35 +27,35 @@ namespace F3\Planetflow3\Command;
  *
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class SetupCommandController extends \F3\FLOW3\MVC\Controller\CommandController {
+class SetupCommandController extends \TYPO3\FLOW3\MVC\Controller\CommandController {
 
 	/**
 	 * @inject
-	 * @var \F3\Planetflow3\Domain\Repository\ChannelRepository
+	 * @var \Planetflow3\Domain\Repository\ChannelRepository
 	 */
 	protected $channelRepository;
 
 	/**
 	 * @inject
-	 * @var \F3\Planetflow3\Domain\Repository\ItemRepository
+	 * @var \Planetflow3\Domain\Repository\ItemRepository
 	 */
 	protected $itemRepository;
 
 	/**
 	 * @inject
-	 * @var \F3\Planetflow3\Domain\Repository\CategoryRepository
+	 * @var \Planetflow3\Domain\Repository\CategoryRepository
 	 */
 	protected $categoryRepository;
 
 	/**
 	 * @inject
-	 * @var \F3\FLOW3\Security\AccountRepository
+	 * @var \TYPO3\FLOW3\Security\AccountRepository
 	 */
 	protected $accountRepository;
 
 	/**
 	 * @inject
-	 * @var \F3\FLOW3\Security\AccountFactory
+	 * @var \TYPO3\FLOW3\Security\AccountFactory
 	 */
 	protected $accountFactory;
 
@@ -69,16 +69,16 @@ class SetupCommandController extends \F3\FLOW3\MVC\Controller\CommandController 
 		$this->channelRepository->removeAll();
 		$this->categoryRepository->removeAll();
 
-		$flow3Category = new \F3\Planetflow3\Domain\Model\Category('FLOW3');
+		$flow3Category = new \Planetflow3\Domain\Model\Category('FLOW3');
 		$this->categoryRepository->add($flow3Category);
-		$phpCategory = new \F3\Planetflow3\Domain\Model\Category('PHP');
+		$phpCategory = new \Planetflow3\Domain\Model\Category('PHP');
 		$this->categoryRepository->add($phpCategory);
-		$phoenixCategory = new \F3\Planetflow3\Domain\Model\Category('Phoenix');
+		$phoenixCategory = new \Planetflow3\Domain\Model\Category('Phoenix');
 		$this->categoryRepository->add($phoenixCategory);
 
 		$channels = array();
 
-		$channel = new \F3\Planetflow3\Domain\Model\Channel();
+		$channel = new \Planetflow3\Domain\Model\Channel();
 		$channel->setName('news.typo3.org: FLOW3');
 		$channel->setUrl('http://news.typo3.org/news/teams/flow3/');
 		$channel->setFeedUrl('http://news.typo3.org/news/teams/flow3/rss.xml');
@@ -86,7 +86,7 @@ class SetupCommandController extends \F3\FLOW3\MVC\Controller\CommandController 
 		$this->channelRepository->add($channel);
 		$channels[] = $channel;
 
-		$channel = new \F3\Planetflow3\Domain\Model\Channel();
+		$channel = new \Planetflow3\Domain\Model\Channel();
 		$channel->setName('Karsten Dambekalns - Code & Content');
 		$channel->setUrl('http://blog.k-fish.de');
 		$channel->setFeedUrl('http://blog.k-fish.de/feeds/posts/default');
@@ -94,7 +94,7 @@ class SetupCommandController extends \F3\FLOW3\MVC\Controller\CommandController 
 		$this->channelRepository->add($channel);
 		$channels[] = $channel;
 
-		$channel = new \F3\Planetflow3\Domain\Model\Channel();
+		$channel = new \Planetflow3\Domain\Model\Channel();
 		$channel->setName('networkteam Blog - FLOW3');
 		$channel->setUrl('http://www.networkteam.com/blog.html');
 		$channel->setFeedUrl('http://www.networkteam.com/rss.xml');
@@ -103,7 +103,7 @@ class SetupCommandController extends \F3\FLOW3\MVC\Controller\CommandController 
 		$this->channelRepository->add($channel);
 		$channels[] = $channel;
 
-		$channel = new \F3\Planetflow3\Domain\Model\Channel();
+		$channel = new \Planetflow3\Domain\Model\Channel();
 		$channel->setName('Robert Lemke - Fluent Code Artisan');
 		$channel->setUrl('http://robertlemke.de/blog/');
 		$channel->setFeedUrl('http://robertlemke.de/blog/feeds/posts.rss.xml');
@@ -112,7 +112,7 @@ class SetupCommandController extends \F3\FLOW3\MVC\Controller\CommandController 
 		$this->channelRepository->add($channel);
 		$channels[] = $channel;
 
-		$channel = new \F3\Planetflow3\Domain\Model\Channel();
+		$channel = new \Planetflow3\Domain\Model\Channel();
 		$channel->setName('t3blog.de');
 		$channel->setUrl('http://t3blog.de');
 		$channel->setFeedUrl('http://t3blog.de/feed/');
@@ -121,7 +121,7 @@ class SetupCommandController extends \F3\FLOW3\MVC\Controller\CommandController 
 		$this->channelRepository->add($channel);
 		$channels[] = $channel;
 
-		$channel = new \F3\Planetflow3\Domain\Model\Channel();
+		$channel = new \Planetflow3\Domain\Model\Channel();
 		$channel->setName('layh.com');
 		$channel->setUrl('http://www.layh.com');
 		$channel->setFeedUrl('http://www.layh.com/wordpress/feed/');
@@ -153,7 +153,7 @@ class SetupCommandController extends \F3\FLOW3\MVC\Controller\CommandController 
 	 * @return void
 	 */
 	public function createUserCommand($identifier) {
-		$uuid = \F3\FLOW3\Utility\Algorithms::generateUUID();
+		$uuid = \TYPO3\FLOW3\Utility\Algorithms::generateUUID();
 		$password = substr($uuid, 0, 10);
 		$account = $this->accountFactory->createAccountWithPassword($identifier, $password, array('Administrator'));
 		$this->accountRepository->add($account);
@@ -166,7 +166,7 @@ class SetupCommandController extends \F3\FLOW3\MVC\Controller\CommandController 
 	 * @return void
 	 */
 	public function classifyLanguagesCommand() {
-		$textcat = new \F3\Libtextcat\Textcat();
+		$textcat = new \Libtextcat\Textcat();
 		$items = $this->itemRepository->findAll();
 		foreach ($items as $item) {
 			$language = $textcat->classify($item->getDescription() . ' ' . $item->getContent());

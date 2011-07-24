@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8');
-namespace F3\Planetflow3\Controller;
+namespace Planetflow3\Controller;
 
 /*                                                                        *
  * This script belongs to the FLOW3 package "Planetflow3".                *
@@ -27,11 +27,11 @@ namespace F3\Planetflow3\Controller;
  *
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class ChannelController extends \F3\FLOW3\MVC\Controller\ActionController {
+class ChannelController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 
 	/**
 	 * @inject
-	 * @var \F3\Planetflow3\Domain\Repository\ChannelRepository
+	 * @var \Planetflow3\Domain\Repository\ChannelRepository
 	 */
 	protected $channelRepository;
 
@@ -48,21 +48,21 @@ class ChannelController extends \F3\FLOW3\MVC\Controller\ActionController {
 	/**
 	 * New action
 	 *
-	 * @param \F3\Planetflow3\Domain\Model\Channel $channel
+	 * @param \Planetflow3\Domain\Model\Channel $channel
 	 * @return void
 	 * @dontvalidate $channel
 	 */
-	public function newAction(\F3\Planetflow3\Domain\Model\Channel $channel = NULL) {
+	public function newAction(\Planetflow3\Domain\Model\Channel $channel = NULL) {
 		$this->view->assign('channel', $channel);
 	}
 
 	/**
 	 * Create action
 	 *
-	 * @param \F3\Planetflow3\Domain\Model\Channel $channel
+	 * @param \Planetflow3\Domain\Model\Channel $channel
 	 * @return void
 	 */
-	public function createAction(\F3\Planetflow3\Domain\Model\Channel $channel) {
+	public function createAction(\Planetflow3\Domain\Model\Channel $channel) {
 		$this->channelRepository->add($channel);
 
 		$this->flashMessageContainer->add('Channel created.');
