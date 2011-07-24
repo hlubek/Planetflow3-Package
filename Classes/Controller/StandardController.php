@@ -36,6 +36,12 @@ class StandardController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 	protected $itemRepository;
 
 	/**
+	 * @inject
+	 * @var \Planetflow3\Domain\Repository\ChannelRepository
+	 */
+	protected $channelRepository;
+
+	/**
 	 * Items per page
 	 * @var integer
 	 */
@@ -65,6 +71,10 @@ class StandardController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 		$this->view->assign('perPage', $this->perPage);
 		$this->view->assign('hasNext', $offset + $this->perPage <= $count);
 		$this->view->assign('nextPage', $page + 1);
+
+		$channels = $this->channelRepository->findAll();
+		$this->view->assign('channels', $channels);
+		$this->view->assign('languages', array('en', 'de'));
 
 		// TODO Send correct cache control including last modified
 	}

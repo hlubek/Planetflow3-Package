@@ -3,11 +3,6 @@
 <f:layout name="Default" />
 
 <f:section name="main">
-	<f:if condition="{language}">
-		<div class="filter">
-			<f:link.action action="index" arguments="{language: null}" title="Remove language filter"><span>Language</span> <strong>{language -> p:languageName()}</strong></f:link.action>
-		</div>
-	</f:if>
 	<div class="articles">
 	<f:for each="{items}" as="item">
 		<article class="item">
@@ -42,4 +37,25 @@
 			<f:link.action action="index" arguments="{page: nextPage, language: language}" class="next">Next</f:link.action>
 		</p>
 	</f:if>
+</f:section>
+
+<f:section name="sidebar">
+	<nav class="language-switcher">
+		<h4>Language</h4>
+		<ul>
+			<li class="<f:if condition="{language}"><f:then></f:then><f:else>active</f:else></f:if>"><f:link.action action="index" arguments="{language: null}">All</f:link.action></li>
+			<f:for each="{languages}" as="availableLanguage">
+				<li class="<f:if condition="{language}=={availableLanguage}">active</f:if>"><f:link.action action="index" arguments="{language: availableLanguage}">{availableLanguage -> p:languageName()}</f:link.action></li>
+			</f:for>
+		</ul>
+	</nav>
+	<nav class="feeds">
+		<h4>Monitored feeds</h4>
+		<ul>
+			<f:for each="{channels}" as="channel">
+				<li><a href="{channel.url}">{channel.name}</a></li>
+			</f:for>
+		</ul>
+	</nav>
+	<a href="{f:uri.action(controller: 'standard', action: 'feed', arguments: {language: language}, format: 'xml', absolute: 'true')}" class="rss">Subscribe RSS feed</a>
 </f:section>
