@@ -23,20 +23,20 @@ namespace Planetflow3\Domain\Service;
  *                                                                        */
 
 /**
- * A twiiter search service
+ * A Twitter search service
  *
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class TwitterSearchService {
 
 	/**
-	 * 
+	 *
 	 */
 	public function findTweets($query) {
 		$url = 'http://search.twitter.com/search.json?q=' . urlencode($query);
 		$result = file_get_contents($url);
 		$tweets = json_decode($result, TRUE);
-		
+
 	}
 
 }

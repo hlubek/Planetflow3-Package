@@ -112,8 +112,8 @@ class Item {
 	 * @return boolean
 	 */
 	public function matchesChannel(\Planetflow3\Domain\Model\Channel $channel) {
-		return $this->matchesFilter($channel->getFilter()) &&
-				$this->matchesCategories($channel->getFetchedCategories());
+		return $this->matchesFilter($channel->getFilter())
+			&& $this->matchesCategories($channel->getFetchedCategories());
 	}
 
 	/**

@@ -1,0 +1,37 @@
+{namespace p=Planetflow3\ViewHelpers}
+
+<div class="metablog-articles">
+<f:if condition="{items}">
+<f:then>
+<f:for each="{items}" as="item">
+	<article class="item">
+		<div class="headline">
+			<span class="date">{item.publicationDate -> f:format.date(format: "M jS Y")}</span>
+			<a class="channel" href="{item.channel.url}">{item.channel.name}</a>
+			<f:if condition="{language}">
+				<f:then></f:then>
+				<f:else>
+					<f:link.action action="index" arguments="{language: item.language}" class="language" title="View only posts in {item.language -> p:languageName(lowercase: 1)}">{item.language -> p:languageName()}</f:link.action>
+				</f:else>
+			</f:if>
+		</div>
+		<h2><a href="{item.link}">{item.title -> f:format.raw()}</a></h2>
+		<f:if condition="{item.content}">
+		<f:then>
+			{item.content -> f:format.raw()}
+		</f:then>
+		<f:else>
+			{item.description -> f:format.raw()}
+		</f:else>
+		</f:if>
+		<p class="more">
+			<a href="{item.link}">Read full article</a>
+		</p>
+	</article>
+</f:for>
+</f:then>
+<f:else>
+	<p>No articles yet.</p>
+</f:else>
+</f:if>
+</div>

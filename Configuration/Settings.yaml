@@ -1,0 +1,19 @@
+TYPO3:
+  TYPO3CR:
+    contentTypes:
+      'Planetflow3:MetablogPlugin':
+        superTypes: ['TYPO3.TYPO3:Plugin']
+        label: 'Metablog plugin'
+        group: 'Plugins'
+        properties:
+          package:
+            default: Planetflow3
+          controller:
+            default: Plugin
+          action:
+            default: items
+          itemsPerPage:
+            type: integer
+            default: 10
+            label: 'Items per page'
+            category: 'pluginSettings'

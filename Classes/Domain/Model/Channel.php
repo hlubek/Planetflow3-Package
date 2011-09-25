@@ -79,90 +79,10 @@ class Channel {
 	protected $items;
 
 	/**
-	 * @inject
-	 * @var \Planetflow3\Domain\Repository\CategoryRepository
-	 */
-	protected $categoryRepository;
-
-	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		$this->items = new \Doctrine\Common\Collections\ArrayCollection();
-	}
-
-	/**
-	 * Fetches (new) items from the configured feed
-	 *
-	 * @return void
-	 */
-	public function fetchItems() {
-		$simplePie = new \SimplePie();
-		$simplePie->set_feed_url($this->feedUrl);
-		$simplePie->enable_cache(FALSE);
-		$simplePie->init();
-
-		$availableCategories = $this->categoryRepository->findAll();
-		$availableCategoriesByName = array();
-		foreach ($availableCategories as $availableCategory) {
-			$availableCategoriesByName[$availableCategory->getName()] = $availableCategory;
-		}
-
-		$textcat = new \Libtextcat\Textcat();
-
-		$existingUniversalIdentifiers = array();
-		foreach ($this->items as $item) {
-			$existingUniversalIdentifiers[$item->getUniversalIdentifier()] = TRUE;
-		}
-
-		$feedItems = $simplePie->get_items();
-		foreach ($feedItems as $feedItem) {
-			$item = new \Planetflow3\Domain\Model\Item();
-			$item->setUniversalIdentifier($feedItem->get_id());
-			if (isset($existingUniversalIdentifiers[$item->getUniversalIdentifier()])) {
-				echo "Skipped " . $item->getUniversalIdentifier() . ", already fetched." . PHP_EOL;
-				continue;
-			}
-			$item->setLink($feedItem->get_link());
-			$item->setTitle($feedItem->get_title());
-			$item->setDescription($feedItem->get_description());
-			$item->setContent($feedItem->get_content(TRUE));
-			$item->setPublicationDate(new \DateTime($feedItem->get_date()));
-
-			$feedItemCategories = $feedItem->get_categories();
-			if (is_array($feedItemCategories)) {
-				foreach ($feedItemCategories as $feedItemCategory) {
-					$term = $feedItemCategory->get_term();
-					if ($term === NULL || $term === '') {
-						continue;
-					}
-					if (isset($availableCategoriesByName[$term])) {
-						$category = $availableCategoriesByName[$term];
-						$item->addCategory($category);
-					} else {
-						echo "Skipped category " . $term . PHP_EOL;
-					}
-
-				}
-			}
-
-			if ($item->getCategories()->count() === 0 && $this->defaultCategory !== NULL) {
-				$item->addCategory($this->defaultCategory);
-			}
-
-			if ($item->matchesChannel($this)) {
-				$language = $textcat->classify($item->getDescription() . ' ' . $item->getContent());
-				if ($language !== FALSE) {
-					echo "Detected language $language for " . $item->getUniversalIdentifier() . PHP_EOL;
-					$item->setLanguage($language);
-				}
-
-				$this->addItem($item);
-				$existingUniversalIdentifiers[$item->getUniversalIdentifier()] = TRUE;
-			} else {
-				echo "Skipped " . $item->getUniversalIdentifier() . ', not matched.' . PHP_EOL;
-			}
-		}
 	}
 
 	/**

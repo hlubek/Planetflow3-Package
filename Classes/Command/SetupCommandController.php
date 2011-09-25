@@ -129,27 +129,13 @@ class SetupCommandController extends \TYPO3\FLOW3\MVC\Controller\CommandControll
 		$this->channelRepository->add($channel);
 		$channels[] = $channel;
 
-		$this->response->appendContent('Created channels');
-	}
-
-	/**
-	 * Fetches new items from all channels
-	 *
-	 * @return void
-	 */
-	public function fetchCommand() {
-		$channels = $this->channelRepository->findAll();
-		foreach ($channels as $channel) {
-			echo "Fetching items for {$channel->getFeedUrl()}..." . PHP_EOL;
-			$channel->fetchItems();
-			echo "Done fetching items." . PHP_EOL;
-		}
+		$this->outputLine('Created default categories and channels');
 	}
 
 	/**
 	 * Create a user for administration
 	 *
-	 * @param string $identifier
+	 * @param string $identifier Account identifier of the new user
 	 * @return void
 	 */
 	public function createUserCommand($identifier) {
@@ -158,36 +144,6 @@ class SetupCommandController extends \TYPO3\FLOW3\MVC\Controller\CommandControll
 		$account = $this->accountFactory->createAccountWithPassword($identifier, $password, array('Administrator'));
 		$this->accountRepository->add($account);
 		echo "Password: $password" . PHP_EOL;
-	}
-
-	/**
-	 * Detect languages
-	 *
-	 * @return void
-	 */
-	public function classifyLanguagesCommand() {
-		$textcat = new \Libtextcat\Textcat();
-		$items = $this->itemRepository->findAll();
-		foreach ($items as $item) {
-			$language = $textcat->classify($item->getDescription() . ' ' . $item->getContent());
-			if ($language !== FALSE) {
-				echo "Detected language $language for " . $item->getUniversalIdentifier() . PHP_EOL;
-				$item->setLanguage($language);
-			}
-		}
-	}
-
-	/**
-	 * Apply filters
-	 *
-	 * @return void
-	 */
-	public function applyFiltersCommand() {
-		$items = $this->itemRepository->findAll();
-		foreach ($items as $item) {
-			$item->setDescription($item->getDescription());
-			$item->setContent($item->getContent());
-		}
 	}
 
 }
