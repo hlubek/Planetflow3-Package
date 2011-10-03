@@ -390,6 +390,15 @@ input[type=text].f3-form-error {
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
 
+html {
+	overflow: auto;
+}
+
+body {
+	overflow: hidden;
+	max-width: 100%;
+}
+
 
 @media all and (orientation:portrait) {
 
@@ -419,4 +428,3 @@ input[type=text].f3-form-error {
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3{ page-break-after: avoid; }
 }
-
