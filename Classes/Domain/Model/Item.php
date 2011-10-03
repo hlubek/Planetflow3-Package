@@ -172,6 +172,7 @@ class Item {
 			array('/<div><img width="1" height="1"[^>]*>\s*<\/div>/is', ''),
 			// Remove empty paragraphs
 			array('/<p>\s*<\/p>/is', ''),
+			array('/<p>&nbsp;</p>/is', ''),
 			// Remove empty divs
 			array('/<div>\s*<\/div>/is', ''),
 			// Introduce wrapping paragraph around text
