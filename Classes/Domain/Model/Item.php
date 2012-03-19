@@ -1,41 +1,31 @@
 <?php
-declare(ENCODING = 'utf-8');
 namespace Planetflow3\Domain\Model;
 
 /*                                                                        *
  * This script belongs to the FLOW3 package "Planetflow3".                *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
- * the terms of the GNU General Public License as published by the Free   *
- * Software Foundation, either version 3 of the License, or (at your      *
- * option) any later version.                                             *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *                                                                        *
- * You should have received a copy of the GNU General Public License      *
- * along with the script.                                                 *
- * If not, see http://www.gnu.org/licenses/gpl.html                       *
+ * the terms of the GNU General Public License, either version 3 of the   *
+ * License, or (at your option) any later version.                        *
  *                                                                        *
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
+use Doctrine\ORM\Mapping as ORM;
+use TYPO3\FLOW3\Annotations as FLOW3;
+
 /**
  * An Item
  *
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- * @scope prototype
- * @entity
+ * @FLOW3\Entity
  */
 class Item {
 
 	/**
 	 * The universal identifier (atomId or guid), used as identifier and id
 	 * @var string
-	 * @identifier
-	 * @Id
+	 * @FLOW3\Identity
+	 * @ORM\Id
 	 */
 	protected $universalIdentifier;
 
@@ -54,14 +44,14 @@ class Item {
 	/**
 	 * The description
 	 * @var string
-	 * @Column(type="text")
+	 * @ORM\Column(type="text")
 	 */
 	protected $description = '';
 
 	/**
 	 * The item content
 	 * @var string
-	 * @Column(type="text")
+	 * @ORM\Column(type="text")
 	 */
 	protected $content = '';
 
@@ -74,7 +64,7 @@ class Item {
 	/**
 	 * The categories
 	 * @var \Doctrine\Common\Collections\ArrayCollection<\Planetflow3\Domain\Model\Category>
-	 * @ManyToMany(cascade={"all"})
+	 * @ORM\ManyToMany
 	 */
 	protected $categories;
 
@@ -94,7 +84,7 @@ class Item {
 	/**
 	 * The channel
 	 * @var \Planetflow3\Domain\Model\Channel
-	 * @ManyToOne(inversedBy="items")
+	 * @ORM\ManyToOne(inversedBy="items")
 	 */
 	protected $channel;
 
