@@ -1,0 +1,48 @@
+{namespace p=Planetflow3\ViewHelpers}
+<f:layout name="Backend" />
+
+<f:section name="Title">Edit item</f:section>
+
+<f:section name="Content">
+	<div class="page-header">
+		<h1>Edit item</h1>
+	</div>
+	<f:form class="form-horizontal" action="update" name="item" object="{item}">
+		<fieldset>
+			<legend>Item <strong>{item.title}</strong></legend>
+
+			<div class="control-group">
+				<label class="control-label">Channel</label>
+				<div class="controls">
+					<span class="uneditable-input">{item.channel.name}</span>
+				</div>
+			</div>
+
+			<p:controlGroup property="title">
+				<label class="control-label" for="field-title">Title *</label>
+				<div class="controls">
+					<f:form.textfield property="title" class="span3" id="field-title" />
+				</div>
+			</p:controlGroup>
+
+			<p:controlGroup property="description">
+				<label class="control-label" for="field-description">Description</label>
+				<div class="controls">
+					<f:form.textarea property="description" class="span6" id="field-description" rows="15" cols="80" />
+				</div>
+			</p:controlGroup>
+
+			<p:controlGroup property="content">
+				<label class="control-label" for="field-content">Content</label>
+				<div class="controls">
+					<f:form.textarea property="content" class="span6" id="field-content" rows="15" cols="80" />
+				</div>
+			</p:controlGroup>
+
+			<div class="form-actions">
+				<f:form.submit value="Update" class="btn btn-primary" />
+				<f:link.action action="index" class="btn">Cancel</f:link.action>
+			</div>
+		</fieldset>
+	</f:form>
+</f:section>

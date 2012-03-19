@@ -24,10 +24,20 @@
 				</td>
 				<td>
 					{item.title}
+					<f:if condition="{item.disabled}">
+						<span class="label">Disabled</span>
+					</f:if>
 				</td>
 				<td width="150">
 					<f:link.action action="edit" arguments="{item: item}" class="btn btn-small"><i class="icon-pencil icon-black"></i> Edit</f:link.action>
-					<f:link.action action="disable" arguments="{item: item}" class="btn btn-small"><i class="icon-eye-close icon-black"></i> Disable</f:link.action>
+					<f:if condition="{item.disabled}">
+						<f:then>
+							<f:link.action action="enable" arguments="{item: item}" class="btn btn-small"><i class="icon-eye-open icon-black"></i> Enable</f:link.action>
+						</f:then>
+						<f:else>
+							<f:link.action action="disable" arguments="{item: item}" class="btn btn-small"><i class="icon-eye-close icon-black"></i> Disable</f:link.action>
+						</f:else>
+					</f:if>
 				</td>
 			</tr>
 		</f:for>

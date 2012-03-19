@@ -57,5 +57,31 @@ class ItemController extends AbstractBackendController {
 		$this->redirect('index');
 	}
 
+	/**
+	 * Enable action
+	 *
+	 * @param \Planetflow3\Domain\Model\Item $item
+	 */
+	public function enableAction(\Planetflow3\Domain\Model\Item $item) {
+		$item->setDisabled(FALSE);
+		$this->itemRepository->update($item);
+
+		$this->addFlashMessage('Item enabled.', 'Success', \TYPO3\FLOW3\Error\Message::SEVERITY_OK);
+		$this->redirect('index');
+	}
+
+	/**
+	 * Disable action
+	 *
+	 * @param \Planetflow3\Domain\Model\Item $item
+	 */
+	public function disableAction(\Planetflow3\Domain\Model\Item $item) {
+		$item->setDisabled(TRUE);
+		$this->itemRepository->update($item);
+
+		$this->addFlashMessage('Item disabled.', 'Success', \TYPO3\FLOW3\Error\Message::SEVERITY_OK);
+		$this->redirect('index');
+	}
+
 }
 ?>

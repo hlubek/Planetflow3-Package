@@ -7,7 +7,7 @@
 	<div class="page-header">
 		<h1>Edit channel</h1>
 	</div>
-	<f:form class="form-horizontal" action="create" name="channel" object="{channel}">
+	<f:form class="form-horizontal" action="update" name="channel" object="{channel}">
 		<fieldset>
 			<legend>Channel <strong>{channel.name}</strong></legend>
 			<f:render partial="Channel/Form" arguments="{_all}" />
