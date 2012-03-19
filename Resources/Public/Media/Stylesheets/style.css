@@ -358,11 +358,27 @@ article .more a:active {
 	color: #809cb9;
 }
 #navigations .feeds {
-	margin-top: 50px;
+	margin-top: 40px;
 }
+#navigations .admin {
+	margin-top: 80px;
+	font-size: 85%;
+}
+#navigations .admin ul {
+	border: 0;
+}
+#navigations .admin li {
+	border: 0;
+	color: #324c67;
+}
+#navigations .admin li a {
+	text-align: right;
+	padding-right: 20px;
+}
+
 #navigations a.rss {
 	padding-left: 40px;
-	margin: 45px 0 0 25px;
+	margin: 40px 0 0 25px;
 	display: block;
 	height: 24px;
 	line-height: 24px;

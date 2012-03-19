@@ -1,0 +1,29 @@
+{namespace p=Planetflow3\ViewHelpers}
+<p:controlGroup property="name">
+	<label class="control-label" for="field-name">Name *</label>
+	<div class="controls">
+		<f:form.textfield property="name" class="span3" id="field-name" />
+		<p class="help-block">This text will be displayed in the channel list on the frontpage.</p>
+	</div>
+</p:controlGroup>
+<p:controlGroup property="url">
+	<label class="control-label" for="field-url">URL *</label>
+	<div class="controls">
+		<f:form.textfield property="url" class="span4" id="field-url" />
+		<p class="help-block">The URL of the website / blog, will be used to link to the website.</p>
+	</div>
+</p:controlGroup>
+<p:controlGroup property="feedUrl">
+	<label class="control-label" for="field-feedUrl">Feed-URL *</label>
+	<div class="controls">
+		<f:form.textfield property="feedUrl" class="span4" id="field-feedUrl" />
+		<p class="help-block">The feed URL should point to an Atom or RSS feed or should allow auto-discovery.</p>
+	</div>
+</p:controlGroup>
+<p:controlGroup property="filter">
+	<label class="control-label" for="field-filter">Filter</label>
+	<div class="controls">
+		<f:form.textfield property="filter" class="span4" id="field-filter" />
+		<p class="help-block">Use these filter terms to find matching items in the feed.</p>
+	</div>
+</p:controlGroup>

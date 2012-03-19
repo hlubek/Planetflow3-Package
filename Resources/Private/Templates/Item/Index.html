@@ -1,0 +1,37 @@
+{namespace p=Planetflow3\ViewHelpers}
+<f:layout name="Backend" />
+
+<f:section name="Title">Items</f:section>
+
+<f:section name="Content">
+	<div class="page-header">
+		<h1>Items</h1>
+	</div>
+	<p:widget.paginate objects="{items}" as="paginatedItems" configuration="{itemsPerPage: 30, maximumNumberOfLinks: 10}">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Title</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		<f:for each="{paginatedItems}" as="item">
+			<tr>
+				<td width="70">
+					{item.publicationDate -> f:format.date()}
+				</td>
+				<td>
+					{item.title}
+				</td>
+				<td width="150">
+					<f:link.action action="edit" arguments="{item: item}" class="btn btn-small"><i class="icon-pencil icon-black"></i> Edit</f:link.action>
+					<f:link.action action="disable" arguments="{item: item}" class="btn btn-small"><i class="icon-eye-close icon-black"></i> Disable</f:link.action>
+				</td>
+			</tr>
+		</f:for>
+		</tbody>
+	</table>
+	</p:widget.paginate>
+</f:section>

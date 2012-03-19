@@ -14,10 +14,10 @@ namespace Planetflow3\Controller;
 use TYPO3\FLOW3\Annotations as FLOW3;
 
 /**
- * Channel controller for the Planetflow3 package
+ * Channel controller
  *
  */
-class ChannelController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
+class ChannelController extends AbstractBackendController {
 
 	/**
 	 * @FLOW3\Inject
@@ -28,7 +28,7 @@ class ChannelController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 	/**
 	 * Index action
 	 *
-	 * @return void
+	 * @FLOW3\SkipCsrfProtection
 	 */
 	public function indexAction() {
 		$channels = $this->channelRepository->findAll();
@@ -39,7 +39,6 @@ class ChannelController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 	 * New action
 	 *
 	 * @param \Planetflow3\Domain\Model\Channel $channel
-	 * @return void
 	 * @FLOW3\IgnoreValidation("$channel")
 	 */
 	public function newAction(\Planetflow3\Domain\Model\Channel $channel = NULL) {
@@ -50,12 +49,46 @@ class ChannelController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 	 * Create action
 	 *
 	 * @param \Planetflow3\Domain\Model\Channel $channel
-	 * @return void
 	 */
 	public function createAction(\Planetflow3\Domain\Model\Channel $channel) {
 		$this->channelRepository->add($channel);
 
-		$this->flashMessageContainer->add('Channel created.');
+		$this->addFlashMessage('Channel created.', 'Success', \TYPO3\FLOW3\Error\Message::SEVERITY_OK);
+		$this->redirect('index');
+	}
+
+	/**
+	 * Edit action
+	 *
+	 * @param \Planetflow3\Domain\Model\Channel $channel
+	 * @FLOW3\IgnoreValidation("$channel")
+	 */
+	public function editAction(\Planetflow3\Domain\Model\Channel $channel) {
+		$this->view->assign('channel', $channel);
+	}
+
+	/**
+	 * Update action
+	 *
+	 * @param \Planetflow3\Domain\Model\Channel $channel
+	 */
+	public function updateAction(\Planetflow3\Domain\Model\Channel $channel) {
+		$this->channelRepository->update($channel);
+
+		$this->addFlashMessage('Channel updated.', 'Success', \TYPO3\FLOW3\Error\Message::SEVERITY_OK);
+		$this->redirect('index');
+	}
+
+	/**
+	 * Delete action
+	 *
+	 * @param \Planetflow3\Domain\Model\Channel $channel
+	 * @FLOW3\IgnoreValidation("$channel")
+	 */
+	public function deleteAction(\Planetflow3\Domain\Model\Channel $channel) {
+		$this->channelRepository->remove($channel);
+
+		$this->addFlashMessage('Channel removed.', 'Success', \TYPO3\FLOW3\Error\Message::SEVERITY_NOTICE);
 		$this->redirect('index');
 	}
 

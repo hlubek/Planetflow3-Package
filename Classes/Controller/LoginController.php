@@ -14,7 +14,7 @@ namespace Planetflow3\Controller;
 use TYPO3\FLOW3\Annotations as FLOW3;
 
 /**
- * Channel controller for the Planetflow3 package
+ * Login controller
  *
  */
 class LoginController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
@@ -37,42 +37,25 @@ class LoginController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 
 	/**
 	 * Authenticates an account by invoking the Provider based Authentication Manager.
-	 *
-	 * On successful authentication redirects to the backend, otherwise returns
-	 * to the login screen.
-	 *
-	 * Note: You need to send the username and password these two POST parameters:
-	 *       TYPO3[FLOW3][Security][Authentication][Token][UsernamePassword][username]
-	 *   and TYPO3[FLOW3][Security][Authentication][Token][UsernamePassword][password]
-	 *
-	 * @return void
 	 */
 	public function authenticateAction() {
-		$authenticated = FALSE;
 		try {
-			$this->authenticationManager->authenticate();
-			$authenticated = TRUE;
-		} catch (\TYPO3\FLOW3\Security\Exception\AuthenticationRequiredException $exception) {
-			throw $exception;
-		}
-
-		if ($authenticated) {
-			$this->redirect('index', 'Channel');
-		} else {
-			$this->flashMessageContainer->add('Wrong username or password.');
-			$this->redirect('index', 'Login');
-		}
+            $this->authenticationManager->authenticate();
+            $this->addFlashMessage('You have successfully logged in.', 'Welcome', \TYPO3\FLOW3\Error\Message::SEVERITY_OK);
+            $this->redirect('index', 'Overview');
+        } catch (\TYPO3\FLOW3\Security\Exception\AuthenticationRequiredException $exception) {
+			$this->addFlashMessage('Wrong username or password.', 'Login failed', \TYPO3\FLOW3\Error\Message::SEVERITY_ERROR);
+            throw $exception;
+        }
 	}
 
 	/**
 	 * Logs out a - possibly - currently logged in account.
-	 *
-	 * @return void
 	 */
 	public function logoutAction() {
 		$this->authenticationManager->logout();
 
-		$this->flashMessageContainer->add('Successfully logged out.');
+		$this->addFlashMessage('You are logged out now.', 'See you later', \TYPO3\FLOW3\Error\Message::SEVERITY_OK);
 		$this->redirect('index');
 	}
 

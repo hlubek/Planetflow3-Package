@@ -1,0 +1,36 @@
+<f:flashMessages severity="OK" as="flashMessages">
+	<f:for each="{flashMessages}" as="flashMessage">
+		<div class="alert alert-success alert-block">
+			<a class="close" data-dismiss="alert">×</a>
+			<h4 class="alert-heading">{flashMessage.title}</h4>
+			<p>{flashMessage}</p>
+		</div>
+	</f:for>
+</f:flashMessages>
+<f:flashMessages severity="Notice" as="flashMessages">
+	<f:for each="{flashMessages}" as="flashMessage">
+		<div class="alert alert-info alert-block">
+			<a class="close" data-dismiss="alert">×</a>
+			<h4 class="alert-heading">{flashMessage.title}</h4>
+			<p>{flashMessage}</p>
+		</div>
+	</f:for>
+</f:flashMessages>
+<f:flashMessages severity="Warning" as="flashMessages">
+	<f:for each="{flashMessages}" as="flashMessage">
+		<div class="alert alert-block">
+			<a class="close" data-dismiss="alert">×</a>
+			<h4 class="alert-heading">{flashMessage.title}</h4>
+			<p>{flashMessage}</p>
+		</div>
+	</f:for>
+</f:flashMessages>
+<f:flashMessages severity="Error" as="flashMessages">
+	<f:for each="{flashMessages}" as="flashMessage">
+		<div class="alert alert-error alert-block">
+			<a class="close" data-dismiss="alert">×</a>
+			<h4 class="alert-heading">{flashMessage.title}</h4>
+			<p>{flashMessage}</p>
+		</div>
+	</f:for>
+</f:flashMessages>

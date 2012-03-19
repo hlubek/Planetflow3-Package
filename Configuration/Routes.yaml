@@ -2,22 +2,21 @@
 # Feeds
 
 -
-  name: 'feed'
-  uriPattern: 'rss.xml'
+  name: feed
+  uriPattern: rss.xml
   defaults:
-    '@package':    'Planetflow3'
-    '@controller': 'Standard'
-    '@action':     'feed'
-    '@format':     'xml'
+    '@controller': Standard
+    '@action': feed
+    '@format': xml
+  appendExceedingArguments: true
 
 ##
 # Default route
 
 -
-  name: 'fallback'
+  name: fallback
   uriPattern: ''
   defaults:
-    '@package':    'Planetflow3'
-    '@controller': 'Standard'
-    '@action':     'index'
-    '@format':     'html'
+    '@controller': Standard
+    '@action': index
+  appendExceedingArguments: true

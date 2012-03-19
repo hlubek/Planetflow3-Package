@@ -131,7 +131,7 @@ class SetupCommandController extends \TYPO3\FLOW3\MVC\Controller\CommandControll
 	public function createUserCommand($identifier) {
 		$uuid = \TYPO3\FLOW3\Utility\Algorithms::generateUUID();
 		$password = substr($uuid, 0, 10);
-		$account = $this->accountFactory->createAccountWithPassword($identifier, $password, array('Administrator'));
+		$account = $this->accountFactory->createAccountWithPassword($identifier, $password, array('Administrator'), 'AdminInterfaceProvider');
 		$this->accountRepository->add($account);
 		echo "Password: $password" . PHP_EOL;
 	}

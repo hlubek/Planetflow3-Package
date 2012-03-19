@@ -18,6 +18,11 @@ namespace Planetflow3\Domain\Repository;
 class ItemRepository extends \TYPO3\FLOW3\Persistence\Repository {
 
 	/**
+	 * @var array
+	 */
+	protected $defaultOrderings = array('publicationDate' => \TYPO3\FLOW3\Persistence\QueryInterface::ORDER_DESCENDING);
+
+	/**
 	 *
 	 * @param integer $offset
 	 * @param integer $limit

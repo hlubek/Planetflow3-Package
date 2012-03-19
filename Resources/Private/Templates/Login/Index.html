@@ -1,19 +1,29 @@
-<f:layout name="Default" />
+<f:layout name="Bootstrap" />
 
-<f:section name="main">
-	<h2>Login</h2>
-	<f:form class="login" action="authenticate" >
-		<f:flashMessages class="errorMessages" />
-		<div class="fields">
-			<label class="username">Username</label>
-			<input type="text" name="TYPO3[FLOW3][Security][Authentication][Token][UsernamePassword][username]" id="username" tabindex="1" {f:if(condition:'{username}', then: 'tabindex="2"', else:'autofocus="autofocus"')} value="{username}" />
+<f:section name="Title">Login</f:section>
+
+<f:section name="Body">
+	<div id="login">
+		<div class="container container-content">
+			<div class="content">
+				<f:render partial="Shared/FlashMessages.html" />
+				<div class="row">
+					<div class="login-form">
+						<h2>Login</h2>
+						<f:form action="authenticate" method="post">
+							<fieldset>
+								<div class="clearfix">
+									<f:form.textfield name="__authentication[TYPO3][FLOW3][Security][Authentication][Token][UsernamePassword][username]" placeholder="Username" />
+								</div>
+								<div class="clearfix">
+									<f:form.password name="__authentication[TYPO3][FLOW3][Security][Authentication][Token][UsernamePassword][password]" additionalAttributes="{placeholder: 'Password'}" />
+								</div>
+								<button class="btn btn-primary" type="submit">Sign in</button>
+							</fieldset>
+						</f:form>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="fields">
-			<label class="password">Password</label>
-			<input class="active" type="password" name="TYPO3[FLOW3][Security][Authentication][Token][UsernamePassword][password]" id="password" {f:if(condition:'{username}', then:'autofocus="autofocus"', else: 'tabindex="2"')} />
-		</div>
-		<div class="actions">
-			<f:form.submit value="Login" />
-		</div>
-	</f:form>
+	</div>
 </f:section>

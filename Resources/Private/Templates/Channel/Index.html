@@ -1,19 +1,36 @@
-<f:layout name="Default" />
+<f:layout name="Backend" />
 
-<f:section name="main">
-	<table>
-		<tr>
-			<th>Name</th>
-			<th>Posts</th>
-		</tr>
-	<f:for each="{channels}" as="channel">
-		<tr>
-			<td><f:link.action action="edit" arguments="{channel: channel}">{channel.name}</f:link.action></td>
-			<td>{channel.items -> f:count()}</td>
-		</tr>
-	</f:for>
+<f:section name="Title">Channels</f:section>
+
+<f:section name="Content">
+	<div class="page-header">
+		<h1>Channels</h1>
+	</div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Posts</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		<f:for each="{channels}" as="channel">
+			<tr>
+				<td>
+					{channel.name}<br />
+					<a href="{channel.url}">{channel.url}</a>
+				</td>
+				<td>{channel.items -> f:count()}</td>
+				<td>
+					<f:link.action action="edit" arguments="{channel: channel}" class="btn btn-small"><i class="icon-pencil icon-black"></i> Edit</f:link.action>
+					<f:link.action action="delete" arguments="{channel: channel}" class="btn btn-small btn-danger"><i class="icon-trash icon-white"></i> Delete</f:link.action>
+				</td>
+			</tr>
+		</f:for>
+		</tbody>
 	</table>
 	<p>
-		<f:link.action action="new">Create new channel</f:link.action>
+		<f:link.action action="new" class="btn">Create new channel</f:link.action>
 	</p>
 </f:section>

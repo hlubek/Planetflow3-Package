@@ -76,7 +76,6 @@ class Item {
 
 	/**
 	 * Language of the item (ISO 2-letter)
-	 *
 	 * @var string
 	 */
 	protected $language;
@@ -87,6 +86,12 @@ class Item {
 	 * @ORM\ManyToOne(inversedBy="items")
 	 */
 	protected $channel;
+
+	/**
+	 * If the item is disabled it won't be shown
+	 * @var boolean
+	 */
+	protected $disabled = FALSE;
 
 	/**
 	 * Constructor
@@ -162,7 +167,7 @@ class Item {
 			array('/<div><img width="1" height="1"[^>]*>\s*<\/div>/is', ''),
 			// Remove empty paragraphs
 			array('/<p>\s*<\/p>/is', ''),
-			array('/<p>&nbsp;</p>/is', ''),
+			array('/<p>&nbsp;<\/p>/is', ''),
 			// Remove empty divs
 			array('/<div>\s*<\/div>/is', ''),
 			// Introduce wrapping paragraph around text
@@ -258,6 +263,17 @@ class Item {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getTeaser() {
+		if ($this->content !== '') {
+			return substr(strip_tags($this->content), 0, 200);
+		} else {
+			return substr(strip_tags($this->description), 0, 200);
+		}
+	}
+
+	/**
 	 * Get the Item's author
 	 *
 	 * @return string The Item's author
@@ -340,7 +356,7 @@ class Item {
 	 * @param \DateTime $publicationDate The Item's publication date
 	 * @return void
 	 */
-	public function setPublicationDate($publicationDate) {
+	public function setPublicationDate(\DateTime $publicationDate) {
 		$this->publicationDate = $publicationDate;
 	}
 
@@ -376,6 +392,20 @@ class Item {
 	 */
 	public function setChannel(\Planetflow3\Domain\Model\Channel $channel) {
 		$this->channel = $channel;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getDisabled() {
+		return $this->disabled;
+	}
+
+	/**
+	 * @param boolean $disabled
+	 */
+	public function setDisabled($disabled) {
+		$this->disabled = $disabled;
 	}
 
 }

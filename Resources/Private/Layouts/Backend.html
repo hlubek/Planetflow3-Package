@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title><f:render section="Title" /> - Planetflow3</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content="Planetflow3 administrative backend" />
+
+		<f:base />
+
+		<link href="{f:uri.resource(path: 'Media/Stylesheets/bootstrap.min.css')}" rel="stylesheet" />
+		<link href="{f:uri.resource(path: 'Media/Stylesheets/bootstrap-responsive.min.css')}" rel="stylesheet" />
+		<link href="{f:uri.resource(path: 'Media/Stylesheets/backend.css')}" rel="stylesheet" />
+
+		<script src="{f:uri.resource(path: 'Media/JavaScripts/jquery-1.7.1.min.js')}"></script>
+		<script src="{f:uri.resource(path: 'Media/JavaScripts/bootstrap.min.js')}"></script>
+	</head>
+	<body>
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="brand" href="#">Planetflow3</a>
+					<div class="nav-collapse">
+						<ul class="nav">
+							<li class="active"><a href="#">Administration</a></li>
+						</ul>
+						<f:security.ifAuthenticated>
+							<ul class="nav pull-right">
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged in as <strong>{account.accountIdentifier}</strong> <b class="caret"></b></a>
+									<ul class="dropdown-menu">
+										<li><f:link.action action="logout" controller="Login"><i class="icon-off icon-black"></i> Logout</f:link.action></li>
+									</ul>
+								</li>
+							</ul>
+						</f:security.ifAuthenticated>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="content">
+				<div class="row">
+					<div class="span3">
+						<f:render partial="Shared/Menu.html" />
+					</div>
+					<div class="span9">
+						<f:render partial="Shared/FlashMessages.html" />
+						<f:render section="Content" />
+					</div>
+				</div>
+			</div>
+
+			<footer>
+				<p>&copy; networkteam GmbH 2012</p>
+			</footer>
+		</div>
+	</body>
+</html>

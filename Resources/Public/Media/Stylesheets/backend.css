@@ -1,0 +1,65 @@
+/* Override some defaults */
+html, body {
+
+}
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+
+.container > .content {
+	padding-bottom: 40px;
+}
+
+.navbar-fixed-top .brand {
+	padding-right: 0;
+	padding-left: 0;
+	margin-left: 20px;
+	float: right;
+	font-weight: bold;
+	color: #000;
+	text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
+	-webkit-transition: all .2s linear;
+	-moz-transition: all .2s linear;
+	transition: all .2s linear;
+}
+.navbar-fixed-top .brand:hover {
+	text-decoration: none;
+}
+
+#login .container-content {
+	padding-top: 60px;
+	padding-bottom: 0px;
+	width: 300px;
+}
+#login .container > .content {
+	background: #eee;
+	padding: 20px;
+	margin: 0 -20px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+#login .login-form {
+	margin-left: 65px;
+}
+#login legend {
+	margin-right: -50px;
+	font-weight: bold;
+	color: #404040;
+}
+
+.recent-items li {
+	margin-bottom: 10px;
+}
+.recent-items .date {
+	font-size: 85%;
+	color: #777;
+}
+
+.top-channels li {
+	margin-bottom: 10px;
+}

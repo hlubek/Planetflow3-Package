@@ -15,7 +15,30 @@ namespace Planetflow3\Domain\Repository;
  * A repository for Channels
  *
  */
-class ChannelRepository extends \TYPO3\FLOW3\Persistence\Repository {
+class ChannelRepository extends \TYPO3\FLOW3\Persistence\Doctrine\Repository {
+
+	/**
+	 * @var array
+	 */
+	protected $defaultOrderings = array('name' => \TYPO3\FLOW3\Persistence\QueryInterface::ORDER_ASCENDING);
+
+	/**
+	 * Get a list of channels ordered by the count of associated items
+	 *
+	 * @param integer $limit
+	 * @return \TYPO3\FLOW3\Persistence\QueryResultInterface
+	 */
+	public function findTopChannels($limit = 5) {
+		$result = $this->entityManager
+			->createQuery('SELECT c, SIZE(c.items) AS itemCount FROM \Planetflow3\Domain\Model\Channel c ORDER BY itemCount DESC')
+			->setMaxResults($limit)
+			->execute();
+		$channels = array();
+		foreach ($result as $entry) {
+			$channels[] = $entry[0];
+		}
+		return $channels;
+	}
 
 }
 ?>
