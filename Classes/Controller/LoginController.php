@@ -1,36 +1,26 @@
 <?php
-declare(ENCODING = 'utf-8');
 namespace Planetflow3\Controller;
 
 /*                                                                        *
  * This script belongs to the FLOW3 package "Planetflow3".                *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
- * the terms of the GNU Lesser General Public License as published by the *
- * Free Software Foundation, either version 3 of the License, or (at your *
- * option) any later version.                                             *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser       *
- * General Public License for more details.                               *
- *                                                                        *
- * You should have received a copy of the GNU Lesser General Public       *
- * License along with the script.                                         *
- * If not, see http://www.gnu.org/licenses/lgpl.html                      *
+ * the terms of the GNU General Public License, either version 3 of the   *
+ * License, or (at your option) any later version.                        *
  *                                                                        *
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
+use TYPO3\FLOW3\Annotations as FLOW3;
+
 /**
- * Channel controller for the Planetflow3 package 
+ * Channel controller for the Planetflow3 package
  *
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
 class LoginController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 
 	/**
-	 * @inject
+	 * @FLOW3\Inject
 	 * @var \TYPO3\FLOW3\Security\Authentication\AuthenticationManagerInterface
 	 */
 	protected $authenticationManager;
@@ -38,9 +28,8 @@ class LoginController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 	/**
 	 * Default action, displays the login screen
 	 *
-	 * @param string $username Optional: A username to prefill into the username field
+	 * @param string $username Username to prefill into the username field (optional)
 	 * @return void
-	 * @author Robert Lemke <robert@typo3.org>
 	 */
 	public function indexAction($username = NULL) {
 		$this->view->assign('username', $username);
@@ -57,7 +46,6 @@ class LoginController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 	 *   and TYPO3[FLOW3][Security][Authentication][Token][UsernamePassword][password]
 	 *
 	 * @return void
-	 * @author Robert Lemke <robert@typo3.org>
 	 */
 	public function authenticateAction() {
 		$authenticated = FALSE;
@@ -80,8 +68,6 @@ class LoginController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 	 * Logs out a - possibly - currently logged in account.
 	 *
 	 * @return void
-	 * @author Robert Lemke <robert@typo3.org>
-	 * @extdirect
 	 */
 	public function logoutAction() {
 		$this->authenticationManager->logout();
