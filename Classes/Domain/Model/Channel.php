@@ -25,7 +25,6 @@ class Channel {
 	 * The name
 	 * @var string
 	 * @FLOW3\Validate(type="NotEmpty")
-	 * @FLOW3\Validate(type="Label")
 	 */
 	protected $name;
 
