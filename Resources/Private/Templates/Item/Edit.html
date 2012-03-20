@@ -18,10 +18,49 @@
 				</div>
 			</div>
 
+			<div class="control-group">
+				<label class="control-label">Universal identifier</label>
+				<div class="controls">
+					<span class="uneditable-input">{item.universalIdentifier}</span>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Publication date</label>
+				<div class="controls">
+					<span class="uneditable-input">{item.publicationDate -> f:format.date(format: 'Y-m-d H:i:s')}</span>
+				</div>
+			</div>
+
 			<p:controlGroup property="title">
 				<label class="control-label" for="field-title">Title *</label>
 				<div class="controls">
-					<f:form.textfield property="title" class="span3" id="field-title" />
+					<f:form.textfield property="title" class="span6 input-big" id="field-title" />
+				</div>
+			</p:controlGroup>
+
+			<p:controlGroup property="link">
+				<label class="control-label" for="field-link">Link *</label>
+				<div class="controls">
+					<div class="input-append">
+						<f:form.textfield property="link" class="span5" id="field-link" />
+						<span class="add-on"><a href="{item.link}">@</a></span>
+					</div>
+				</div>
+			</p:controlGroup>
+
+			<p:controlGroup property="categories">
+				<label class="control-label" for="field-categories">Categories</label>
+				<div class="controls">
+					<f:form.select multiple="true" options="{categories}" optionLabelField="name" property="categories" id="field-categories" />
+					<p class="help-block"><i class="icon-info-sign"></i> Hold <em>Ctrl</em> or <em>Cmd</em> to select multiple categories.</p>
+				</div>
+			</p:controlGroup>
+
+			<p:controlGroup property="author">
+				<label class="control-label" for="field-author">Author</label>
+				<div class="controls">
+					<f:form.textfield property="author" class="span2" id="field-author" />
 				</div>
 			</p:controlGroup>
 
@@ -36,6 +75,17 @@
 				<label class="control-label" for="field-content">Content</label>
 				<div class="controls">
 					<f:form.textarea property="content" class="span6" id="field-content" rows="15" cols="80" />
+					<p class="help-block">If the content is filled it will be used instead of the description.</p>
+				</div>
+			</p:controlGroup>
+
+			<p:controlGroup property="disabled">
+				<label class="control-label">Disabled</label>
+				<div class="controls">
+					<label class="checkbox" for="field-disabled">
+						<f:form.checkbox property="disabled" value="true" id="field-disabled" />
+						Do not show the item on the frontpage
+					</label>
 				</div>
 			</p:controlGroup>
 

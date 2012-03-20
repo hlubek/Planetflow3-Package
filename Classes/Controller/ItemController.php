@@ -26,13 +26,35 @@ class ItemController extends AbstractBackendController {
 	protected $itemRepository;
 
 	/**
+	 * @FLOW3\Inject
+	 * @var \Planetflow3\Domain\Repository\ChannelRepository
+	 */
+	protected $channelRepository;
+
+	/**
+	 * @FLOW3\Inject
+	 * @var \Planetflow3\Domain\Repository\CategoryRepository
+	 */
+	protected $categoryRepository;
+
+	/**
 	 * Index action
 	 *
+	 * @param \Planetflow3\Domain\Dto\ItemFilter $filter
 	 * @FLOW3\SkipCsrfProtection
 	 */
-	public function indexAction() {
-		$items = $this->itemRepository->findAll();
+	public function indexAction($filter = NULL) {
+		if ($filter === NULL) {
+			$filter = new \Planetflow3\Domain\Dto\ItemFilter();
+		}
+		$items = $this->itemRepository->findByFilter($filter);
 		$this->view->assign('items', $items);
+		$this->view->assign('filter', $filter);
+
+		$channels = $this->channelRepository->findAll();
+		$categories = $this->categoryRepository->findAll();
+		$this->view->assign('channels', $channels->toArray());
+		$this->view->assign('categories', $categories->toArray());
 	}
 
 	/**
@@ -42,7 +64,10 @@ class ItemController extends AbstractBackendController {
 	 * @FLOW3\IgnoreValidation("$item")
 	 */
 	public function editAction(\Planetflow3\Domain\Model\Item $item) {
+		$categories = $this->categoryRepository->findAll();
+
 		$this->view->assign('item', $item);
+		$this->view->assign('categories', $categories);
 	}
 
 	/**

@@ -40,5 +40,25 @@ class ItemRepository extends \TYPO3\FLOW3\Persistence\Repository {
 		return $query->execute();
 	}
 
+	/**
+	 *
+	 * @param \Planetflow3\Domain\Dto\ItemFilter $filter
+	 * @return \TYPO3\FLOW3\Persistence\QueryResultInterface
+	 */
+	public function findByFilter(\Planetflow3\Domain\Dto\ItemFilter $filter) {
+		$query = $this->createQuery();
+		$constraints = array();
+		if ($filter->getChannel() !== NULL) {
+			$constraints[] = $query->equals('channel', $filter->getChannel());
+		}
+		if ($filter->getCategory() !== NULL) {
+			$constraints[] = $query->contains('categories', $filter->getCategory());
+		}
+		if (count($constraints) > 0) {
+			$query->matching($query->logicalAnd($constraints));
+		}
+		return $query->execute();
+	}
+
 }
 ?>

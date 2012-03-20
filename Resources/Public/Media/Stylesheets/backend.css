@@ -7,6 +7,11 @@ body {
 	padding-bottom: 40px;
 }
 
+form input[type="text"].input-big {
+	height: 24px;
+	font-size: 120%;
+}
+
 .container > .content {
 	padding-bottom: 40px;
 }

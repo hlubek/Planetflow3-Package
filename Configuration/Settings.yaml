@@ -17,3 +17,13 @@ TYPO3:
             default: 10
             label: 'Items per page'
             category: 'pluginSettings'
+
+Planetflow3:
+  log:
+    feedLogger:
+      backendOptions:
+        logFileURL: %FLOW3_PATH_DATA%Logs/Planetflow3_Feed.log
+        createParentDirectories: TRUE
+        severityThreshold: %LOG_INFO%
+        maximumLogFileSize: 1048576
+        logFilesToKeep: 1

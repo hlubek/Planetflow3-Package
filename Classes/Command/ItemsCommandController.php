@@ -13,6 +13,8 @@ namespace Planetflow3\Command;
 
 use TYPO3\FLOW3\Annotations as FLOW3;
 
+use Planetflow3\Domain\Model\Item as Item;
+
 /**
  * Command controller to set up the Planetflow3 package
  *
@@ -44,22 +46,40 @@ class ItemsCommandController extends \TYPO3\FLOW3\MVC\Controller\CommandControll
 	protected $accountRepository;
 
 	/**
+	 * @FLOW3\Inject
+	 * @var \Planetflow3\Log\FeedLoggerInterface
+	 */
+	public $feedLogger;
+
+	/**
 	 * Fetch new items from all channels
 	 *
 	 * This command should be run by a cronjob to do periodical
 	 * updates to the channel feeds.
 	 *
+	 * @param boolean $verbose TRUE if log messages should be shown on the console
 	 * @return void
 	 */
-	public function fetchCommand() {
+	public function fetchCommand($verbose = FALSE) {
+		if ($verbose) {
+			echo 'Fetching feeds';
+		}
+
 		$command = $this;
 		$channels = $this->channelRepository->findAll();
 		foreach ($channels as $channel) {
-			echo "Fetching items for {$channel->getFeedUrl()}..." . PHP_EOL;
-			$this->channelService->fetchItems($channel, function($message, $severity = LOG_INFO) use ($command) {
-				echo $message . PHP_EOL;
+			if ($verbose) {
+				echo 'Fetching items for ' . $channel->getFeedUrl() . '...' . PHP_EOL;
+			}
+			$this->channelService->fetchItems($channel, function(Item $item, $message, $severity = LOG_INFO) use ($channel, $command, $verbose) {
+				if ($verbose) {
+					echo $message . PHP_EOL;
+				}
+				$command->feedLogger->log($channel->getName() . ': ' . $item->getLink() . ' - ' . $message, $severity);
 			});
-			echo "Done fetching items." . PHP_EOL;
+			if ($verbose) {
+				echo "Done fetching items." . PHP_EOL;
+			}
 		}
 	}
 

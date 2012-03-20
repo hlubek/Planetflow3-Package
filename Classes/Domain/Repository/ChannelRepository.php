@@ -23,12 +23,20 @@ class ChannelRepository extends \TYPO3\FLOW3\Persistence\Doctrine\Repository {
 	protected $defaultOrderings = array('name' => \TYPO3\FLOW3\Persistence\QueryInterface::ORDER_ASCENDING);
 
 	/**
+	 * @return \TYPO3\FLOW3\Persistence\QueryResultInterface
+	 */
+	public function findAll() {
+		$query = $this->createQuery();
+		return $query->execute();
+	}
+
+	/**
 	 * Get a list of channels ordered by the count of associated items
 	 *
 	 * @param integer $limit
 	 * @return \TYPO3\FLOW3\Persistence\QueryResultInterface
 	 */
-	public function findTopChannels($limit = 5) {
+	public function findTopChannels($limit = 10) {
 		$result = $this->entityManager
 			->createQuery('SELECT c, SIZE(c.items) AS itemCount FROM \Planetflow3\Domain\Model\Channel c ORDER BY itemCount DESC')
 			->setMaxResults($limit)

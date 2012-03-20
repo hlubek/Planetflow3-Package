@@ -1,0 +1,12 @@
+Planetflow3\Log\FeedLoggerInterface:
+  scope: singleton
+  factoryObjectName: TYPO3\FLOW3\Log\LoggerFactory
+  arguments:
+    1:
+      value: 'Planetflow3_Feed'
+    2:
+      value: 'TYPO3\FLOW3\Log\Logger'
+    3:
+      value: 'TYPO3\FLOW3\Log\Backend\FileBackend'
+    4:
+      setting: Planetflow3.log.feedLogger.backendOptions

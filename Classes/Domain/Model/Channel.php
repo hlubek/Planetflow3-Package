@@ -65,9 +65,15 @@ class Channel {
 	/**
 	 * Items published by this channel
 	 * @var \Doctrine\Common\Collections\ArrayCollection<\Planetflow3\Domain\Model\Item>
-	 * @ORM\OneToMany(mappedBy="channel", cascade={"all"})
+	 * @ORM\OneToMany(mappedBy="channel", cascade={"all"}, fetch="LAZY")
 	 */
 	protected $items;
+
+	/**
+	 * Last fetch date for this channel
+	 * @var \DateTime
+	 */
+	protected $lastFetchDate = NULL;
 
 	/**
 	 * Constructor
@@ -207,6 +213,20 @@ class Channel {
 	 */
 	public function setDefaultCategory(\Planetflow3\Domain\Model\Category $defaultCategory) {
 		$this->defaultCategory = $defaultCategory;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getLastFetchDate() {
+		return $this->lastFetchDate;
+	}
+
+	/**
+	 * @param \DateTime $lastFetchDate
+	 */
+	public function setLastFetchDate(\DateTime $lastFetchDate) {
+		$this->lastFetchDate = $lastFetchDate;
 	}
 
 }

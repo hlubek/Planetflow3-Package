@@ -5,9 +5,16 @@
 
 <f:section name="Content">
 	<div class="page-header">
-		<h1>Items</h1>
+		<h1>Items <small>Manage posts fetched from channels</small></h1>
 	</div>
-	<p:widget.paginate objects="{items}" as="paginatedItems" configuration="{itemsPerPage: 30, maximumNumberOfLinks: 10}">
+
+	<f:form action="index" method="post" class="well form-inline" name="filter" object="{filter}">
+		<f:form.select property="channel" options="{channels -> p:options(prependBlank: '- All channels -')}" optionLabelField="name" />
+		<f:form.select property="category" options="{categories -> p:options(prependBlank: ' - All categories -')}" optionLabelField="name" additionalAttributes="{placeholder: 'Please select'}" />
+		<f:form.submit class="btn" value="Filter" />
+	</f:form>
+
+	<p:widget.paginate objects="{items}" as="paginatedItems" configuration="{insertAbove: 1, itemsPerPage: 20, maximumNumberOfLinks: 10}">
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -23,10 +30,13 @@
 					{item.publicationDate -> f:format.date()}
 				</td>
 				<td>
-					{item.title}
+					<span class="label">{item.channel.name}</span> {item.title}
 					<f:if condition="{item.disabled}">
-						<span class="label">Disabled</span>
-					</f:if>
+						<span class="label label-inverse">Disabled</span>
+					</f:if><br/>
+					<f:for each="{item.categories}" as="category">
+						<span class="label label-info">{category.name}</span>
+					</f:for>
 				</td>
 				<td width="150">
 					<f:link.action action="edit" arguments="{item: item}" class="btn btn-small"><i class="icon-pencil icon-black"></i> Edit</f:link.action>

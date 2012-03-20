@@ -16,7 +16,6 @@
 					<li><span class="date">{item.publicationDate -> f:format.date()}</span> <f:link.action controller="Item" action="edit" arguments="{item: item}" title="{item.title}" additionalAttributes="{data-content: item.teaser}">{item.title}</f:link.action> {item.channel.name}</li>
 				</f:for>
 			</ul>
-			<p><f:link.action action="index" controller="Item" class="btn">Manage items &raquo;</f:link.action></p>
 			<script>
 				jQuery(function($) {
 					$('ul.recent-items li a').popover();
@@ -28,9 +27,20 @@
 			<p>The planet has <strong>{channelCount}</strong> channels right now. The most active channels are:</p>
 			<ul class="top-channels unstyled">
 				<f:for each="{topChannels}" as="channel">
-					<li><span class="badge">{channel.items -> f:count()}</span> {channel.name}</li>
+					<li><f:link.action action="index" controller="Item" arguments="{filter: {channel: channel}}"><span class="badge">{channel.items -> f:count()}</span></f:link.action> {channel.name}</li>
 				</f:for>
 			</ul>
+		</div>
+		<div class="span3">
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="span3">
+			<p><f:link.action action="index" controller="Item" class="btn">Manage items &raquo;</f:link.action></p>
+
+		</div>
+		<div class="span3">
 			<p>
 				<f:link.action action="index" controller="Channel" class="btn">Manage channels &raquo;</f:link.action>
 				<f:link.action action="new" controller="Channel" class="btn btn-info"><i class="icon-plus icon-white"></i> Add channel</f:link.action>

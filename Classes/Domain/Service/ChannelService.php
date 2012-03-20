@@ -13,10 +13,11 @@ namespace Planetflow3\Domain\Service;
 
 use TYPO3\FLOW3\Annotations as FLOW3;
 
+use Planetflow3\Domain\Model\Channel as Channel;
+use Planetflow3\Domain\Model\Item as Item;
+
 /**
  * A service to sync feeds from channels
- *
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class ChannelService {
 
@@ -32,17 +33,24 @@ class ChannelService {
 	 */
 	protected $itemRepository;
 
+	/**
+	 * @FLOW3\Inject
+	 * @var \Planetflow3\Domain\Repository\ChannelRepository
+	 */
+	protected $channelRepository;
 
 	/**
-	 * Fetches (new) items from the configured feed
+	 * Fetches (new) items from the configured feed of a channel
+	 *
+	 * Adds new items and updates channels with a new last fetch date.
 	 *
 	 * @param \Planetflow3\Domain\Model\Channel $channel
-	 * @param \Closure $logger
+	 * @param \Closure $logCallback
 	 * @return void
 	 */
-	public function fetchItems(\Planetflow3\Domain\Model\Channel $channel, $logger = NULL) {
-		if ($logger === NULL) {
-			$logger = function($message, $severity = LOG_INFO) {};
+	public function fetchItems(Channel $channel, $logCallback = NULL) {
+		if ($logCallback === NULL) {
+			$logCallback = function(Item $item, $message, $severity = LOG_INFO) {};
 		}
 
 		$simplePie = new \SimplePie();
@@ -65,10 +73,10 @@ class ChannelService {
 
 		$feedItems = $simplePie->get_items();
 		foreach ($feedItems as $feedItem) {
-			$item = new \Planetflow3\Domain\Model\Item();
+			$item = new Item();
 			$item->setUniversalIdentifier($feedItem->get_id());
 			if (isset($existingUniversalIdentifiers[$item->getUniversalIdentifier()])) {
-				$logger('Skipped item "' . $item->getUniversalIdentifier() . '", already fetched.', LOG_DEBUG);
+				$logCallback($item, 'Skipped item, already fetched', LOG_DEBUG);
 				continue;
 			}
 			$item->setLink($feedItem->get_link());
@@ -76,6 +84,7 @@ class ChannelService {
 			$item->setDescription($feedItem->get_description());
 			$item->setContent($feedItem->get_content(TRUE));
 			$item->setPublicationDate(new \DateTime($feedItem->get_date()));
+			$item->setAuthor($feedItem->get_author());
 
 			$feedItemCategories = $feedItem->get_categories();
 			if (is_array($feedItemCategories)) {
@@ -88,7 +97,7 @@ class ChannelService {
 						$category = $availableCategoriesByName[$term];
 						$item->addCategory($category);
 					} else {
-						$logger('Skipped category "' . $term . '"', LOG_DEBUG);
+						$logCallback($item, 'Skipped category "' . $term . '", not found', LOG_INFO);
 					}
 
 				}
@@ -101,18 +110,22 @@ class ChannelService {
 			if ($item->matchesChannel($channel)) {
 				$language = $textcat->classify($item->getDescription() . ' ' . $item->getContent());
 				if ($language !== FALSE) {
-					$logger('Detected language ' . $language . ' for item "' . $item->getUniversalIdentifier() . '"', LOG_DEBUG);
+					$logCallback($item, 'Detected language ' . $language . ' for item', LOG_DEBUG);
 					$item->setLanguage($language);
 				}
 
 				$channel->addItem($item);
 				$this->itemRepository->add($item);
 
+				$logCallback($item, 'Item fetched and saved', LOG_INFO);
+
 				$existingUniversalIdentifiers[$item->getUniversalIdentifier()] = TRUE;
 			} else {
-				$logger('Skipped item "' . $item->getUniversalIdentifier() . '", not matched.', LOG_DEBUG);
+				$logCallback($item, 'Skipped item, filter not matched', LOG_DEBUG);
 			}
 		}
+		$channel->setLastFetchDate(new \DateTime());
+		$this->channelRepository->update($channel);
 	}
 
 }

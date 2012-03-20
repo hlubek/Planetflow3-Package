@@ -1,0 +1,37 @@
+<f:layout name="Backend" />
+
+<f:section name="Title">Categories</f:section>
+
+<f:section name="Content">
+	<div class="page-header">
+		<h1>Categories</h1>
+	</div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Posts</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		<f:for each="{categories}" as="category">
+			<tr>
+				<td>
+					{category.name}
+				</td>
+				<td>
+					<span class="badge">{category.items -> f:count()}</span>
+				</td>
+				<td>
+					<f:link.action action="edit" arguments="{category: category}" class="btn btn-small"><i class="icon-pencil icon-black"></i> Edit</f:link.action>
+					<f:link.action action="delete" arguments="{category: category}" class="btn btn-small btn-danger"><i class="icon-trash icon-white"></i> Delete</f:link.action>
+				</td>
+			</tr>
+		</f:for>
+		</tbody>
+	</table>
+	<p>
+		<f:link.action action="new" class="btn"><i class="icon-plus icon-black"></i> Create new category</f:link.action>
+	</p>
+</f:section>

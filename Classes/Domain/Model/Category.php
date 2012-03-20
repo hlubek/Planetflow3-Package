@@ -31,6 +31,13 @@ class Category {
 	protected $name;
 
 	/**
+	 * Items assigned to this category
+	 * @var \Doctrine\Common\Collections\ArrayCollection<\Planetflow3\Domain\Model\Item>
+	 * @ORM\ManyToMany(mappedBy="categories", fetch="LAZY")
+	 */
+	protected $items;
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $name
@@ -56,6 +63,20 @@ class Category {
 	 */
 	public function setName($name) {
 		$this->name = $name;
+	}
+
+	/**
+	 * @return \Doctrine\Common\Collections\ArrayCollection<\Planetflow3\Domain\Model\Item>
+	 */
+	public function getItems() {
+		return $this->items;
+	}
+
+	/**
+	 * @param \Doctrine\Common\Collections\ArrayCollection<\Planetflow3\Domain\Model\Item> $items
+	 */
+	public function setItems($items) {
+		$this->items = $items;
 	}
 
 }

@@ -10,6 +10,7 @@
 		<thead>
 			<tr>
 				<th>Name</th>
+				<th>Last fetch date</th>
 				<th>Posts</th>
 				<th></th>
 			</tr>
@@ -21,7 +22,15 @@
 					{channel.name}<br />
 					<a href="{channel.url}">{channel.url}</a>
 				</td>
-				<td>{channel.items -> f:count()}</td>
+				<td>
+					<f:if condition="{channel.lastFetchDate}">
+						<f:then>{channel.lastFetchDate -> f:format.date(format: 'Y-m-d H:i:s')}</f:then>
+						<f:else><span class="label label-warning">never</span> Check this feed for warnings or errors in the log.</f:else>
+					</f:if>
+				</td>
+				<td>
+				<f:link.action action="index" controller="Item" arguments="{filter: {channel: channel}}"><span class="badge">{channel.items -> f:count()}</span></f:link.action>
+				</td>
 				<td>
 					<f:link.action action="edit" arguments="{channel: channel}" class="btn btn-small"><i class="icon-pencil icon-black"></i> Edit</f:link.action>
 					<f:link.action action="delete" arguments="{channel: channel}" class="btn btn-small btn-danger"><i class="icon-trash icon-white"></i> Delete</f:link.action>
@@ -31,6 +40,6 @@
 		</tbody>
 	</table>
 	<p>
-		<f:link.action action="new" class="btn">Create new channel</f:link.action>
+		<f:link.action action="new" class="btn"><i class="icon-plus icon-black"></i> Create new channel</f:link.action>
 	</p>
 </f:section>

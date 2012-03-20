@@ -295,7 +295,7 @@ class Item {
 	/**
 	 * Get the Item's categories
 	 *
-	 * @return array The Item's categories
+	 * @return \Doctrine\Common\Collections\ArrayCollection<\Planetflow3\Domain\Model\Category> The Item's categories
 	 */
 	public function getCategories() {
 		return $this->categories;
@@ -304,10 +304,10 @@ class Item {
 	/**
 	 * Sets this Item's categories
 	 *
-	 * @param array $categories The Item's categories
+	 * @param \Doctrine\Common\Collections\ArrayCollection<\Planetflow3\Domain\Model\Category> $categories The Item's categories
 	 * @return void
 	 */
-	public function setCategories(array $categories) {
+	public function setCategories(\Doctrine\Common\Collections\ArrayCollection $categories) {
 		$this->categories = $categories;
 	}
 

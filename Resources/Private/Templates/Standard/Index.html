@@ -18,12 +18,12 @@
 			</div>
 			<h2><a href="{item.link}">{item.title -> f:format.raw()}</a></h2>
 			<f:if condition="{item.content}">
-			<f:then>
-				{item.content -> f:format.raw()}
-			</f:then>
-			<f:else>
-				{item.description -> f:format.raw()}
-			</f:else>
+				<f:then>
+					{item.content -> f:format.raw()}
+				</f:then>
+				<f:else>
+					{item.description -> f:format.raw()}
+				</f:else>
 			</f:if>
 			<p class="more">
 				<a href="{item.link}">Read full article</a>
