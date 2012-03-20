@@ -21,7 +21,7 @@
 					{category.name}
 				</td>
 				<td>
-					<span class="badge">{category.items -> f:count()}</span>
+					<f:link.action action="index" controller="Item" arguments="{filter: {category: category}}"><span class="badge">{category.items -> f:count()}</span></f:link.action>
 				</td>
 				<td>
 					<f:link.action action="edit" arguments="{category: category}" class="btn btn-small"><i class="icon-pencil icon-black"></i> Edit</f:link.action>

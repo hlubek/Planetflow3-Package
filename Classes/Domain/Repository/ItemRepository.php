@@ -23,6 +23,9 @@ class ItemRepository extends \TYPO3\FLOW3\Persistence\Repository {
 	protected $defaultOrderings = array('publicationDate' => \TYPO3\FLOW3\Persistence\QueryInterface::ORDER_DESCENDING);
 
 	/**
+	 * Find recent items
+	 *
+	 * Simple pagination and filter optionally by language.
 	 *
 	 * @param integer $offset
 	 * @param integer $limit
@@ -41,6 +44,7 @@ class ItemRepository extends \TYPO3\FLOW3\Persistence\Repository {
 	}
 
 	/**
+	 * Find items by filter for management
 	 *
 	 * @param \Planetflow3\Domain\Dto\ItemFilter $filter
 	 * @return \TYPO3\FLOW3\Persistence\QueryResultInterface
