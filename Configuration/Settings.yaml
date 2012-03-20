@@ -17,6 +17,15 @@ TYPO3:
             default: 10
             label: 'Items per page'
             category: 'pluginSettings'
+  FLOW3:
+    security:
+      authentication:
+        providers:
+          AdminInterfaceProvider:
+            providerClass: PersistedUsernamePasswordProvider
+            entryPoint:
+              WebRedirect:
+                uri: planetflow3/login
 
 Planetflow3:
   log:
