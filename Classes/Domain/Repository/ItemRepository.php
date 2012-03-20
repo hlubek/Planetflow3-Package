@@ -15,7 +15,7 @@ namespace Planetflow3\Domain\Repository;
  * A repository for Items
  *
  */
-class ItemRepository extends \TYPO3\FLOW3\Persistence\Repository {
+class ItemRepository extends \TYPO3\FLOW3\Persistence\Doctrine\Repository {
 
 	/**
 	 * @var array
@@ -23,23 +23,10 @@ class ItemRepository extends \TYPO3\FLOW3\Persistence\Repository {
 	protected $defaultOrderings = array('publicationDate' => \TYPO3\FLOW3\Persistence\QueryInterface::ORDER_DESCENDING);
 
 	/**
-	 * Find recent items
-	 *
-	 * Simple pagination and filter optionally by language.
-	 *
-	 * @param integer $offset
-	 * @param integer $limit
-	 * @param string $language
 	 * @return \TYPO3\FLOW3\Persistence\QueryResultInterface
 	 */
-	public function findRecent($offset = 0, $limit = 10, $language = NULL) {
+	public function findAll() {
 		$query = $this->createQuery();
-		if ($language !== NULL) {
-			$query->matching($query->equals('language', $language));
-		}
-		$query->setOrderings(array('publicationDate' => \TYPO3\FLOW3\Persistence\QueryInterface::ORDER_DESCENDING));
-		$query->setOffset($offset);
-		$query->setLimit($limit);
 		return $query->execute();
 	}
 
@@ -49,9 +36,18 @@ class ItemRepository extends \TYPO3\FLOW3\Persistence\Repository {
 	 * @param \Planetflow3\Domain\Dto\ItemFilter $filter
 	 * @return \TYPO3\FLOW3\Persistence\QueryResultInterface
 	 */
-	public function findByFilter(\Planetflow3\Domain\Dto\ItemFilter $filter) {
+	public function findByFilter(\Planetflow3\Domain\Dto\ItemFilter $filter = NULL) {
 		$query = $this->createQuery();
 		$constraints = array();
+		if ($filter === NULL) {
+			$filter = new \Planetflow3\Domain\Dto\ItemFilter();
+		}
+		if ((string)$filter->getLanguage() !== '') {
+			$constraints[] = $query->equals('language', $filter->getLanguage());
+		}
+		if ($filter->getDisabled() !== NULL) {
+			$constraints[] = $query->equals('disabled', $filter->getDisabled());
+		}
 		if ($filter->getChannel() !== NULL) {
 			$constraints[] = $query->equals('channel', $filter->getChannel());
 		}
@@ -62,6 +58,15 @@ class ItemRepository extends \TYPO3\FLOW3\Persistence\Repository {
 			$query->matching($query->logicalAnd($constraints));
 		}
 		return $query->execute();
+	}
+
+	/**
+	 * Get a grouped list of years with months and counts of all items
+	 *
+	 * @return array
+	 */
+	public function getGroupedYearsAndMonthsWithCount() {
+
 	}
 
 }

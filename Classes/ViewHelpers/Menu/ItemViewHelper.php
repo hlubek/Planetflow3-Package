@@ -19,7 +19,7 @@ class ItemViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractTagBasedViewHe
 	protected $tagName = 'li';
 
 	/**
-	 * Escape the given value
+	 * Render a menu item (li) with correct icon color and active state.
 	 *
 	 * @param string $controller
 	 * @param string $action

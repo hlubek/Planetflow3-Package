@@ -1,0 +1,20 @@
+{namespace p=Planetflow3\ViewHelpers}
+<f:layout name="Backend" />
+
+<f:section name="Title">Edit user</f:section>
+
+<f:section name="Content">
+	<div class="page-header">
+		<h1>Edit user</h1>
+	</div>
+	<f:form class="form-horizontal" action="update" name="user" object="{user}">
+		<fieldset>
+			<legend>User <strong>{user.emailAddress}</strong></legend>
+			<f:render partial="User/Form" arguments="{user: user, isNew: 0}" />
+			<div class="form-actions">
+				<f:form.submit value="Update" class="btn btn-primary" />
+				<f:link.action action="index" class="btn">Cancel</f:link.action>
+			</div>
+		</fieldset>
+	</f:form>
+</f:section>

@@ -29,6 +29,16 @@ class ItemFilter {
 	protected $category;
 
 	/**
+	 * @var string
+	 */
+	protected $language = NULL;
+
+	/**
+	 * @var string
+	 */
+	protected $disabled = NULL;
+
+	/**
 	 * @return \Planetflow3\Domain\Model\Channel
 	 */
 	public function getChannel() {
@@ -54,6 +64,34 @@ class ItemFilter {
 	 */
 	public function setCategory($category) {
 		$this->category = $category;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLanguage() {
+		return $this->language;
+	}
+
+	/**
+	 * @param string $language
+	 */
+	public function setLanguage($language) {
+		$this->language = $language;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getDisabled() {
+		return $this->disabled;
+	}
+
+	/**
+	 * @param boolean $disabled
+	 */
+	public function setDisabled($disabled) {
+		$this->disabled = $disabled;
 	}
 
 }

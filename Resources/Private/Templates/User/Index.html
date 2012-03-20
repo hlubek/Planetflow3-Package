@@ -1,0 +1,37 @@
+<f:layout name="Backend" />
+
+<f:section name="Title">Users</f:section>
+
+<f:section name="Content">
+	<div class="page-header">
+		<h1>Users</h1>
+	</div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>E-Mail</th>
+				<th>Role</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		<f:for each="{users}" as="user">
+			<tr>
+				<td>
+					{user.emailAddress}
+				</td>
+				<td>
+					{user.role}
+				</td>
+				<td>
+					<f:link.action action="edit" arguments="{user: user}" class="btn btn-small"><i class="icon-pencil icon-black"></i> Edit</f:link.action>
+					<f:link.action action="delete" arguments="{user: user}" class="btn btn-small btn-danger"><i class="icon-trash icon-white"></i> Delete</f:link.action>
+				</td>
+			</tr>
+		</f:for>
+		</tbody>
+	</table>
+	<p>
+		<f:link.action action="new" class="btn"><i class="icon-plus icon-black"></i> Create new user</f:link.action>
+	</p>
+</f:section>

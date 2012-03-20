@@ -20,7 +20,6 @@
 			<tr>
 				<th>Date</th>
 				<th>Title</th>
-				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -30,7 +29,16 @@
 					{item.publicationDate -> f:format.date()}
 				</td>
 				<td>
-					<span class="label">{item.channel.name}</span> {item.title}
+					<span class="label">{item.channel.name}</span>
+					<f:if condition="{item.language}">
+						<f:then>
+							<span class="label label-success">{item.language -> p:format.transform(case: 'upper')}</span>
+						</f:then>
+						<f:else>
+							<span class="label label-important">No language assigned!</span>
+						</f:else>
+					</f:if>
+					<strong>{item.title}</strong>
 					<f:if condition="{item.disabled}">
 						<span class="label label-inverse">Disabled</span>
 					</f:if><br/>

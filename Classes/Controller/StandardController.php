@@ -38,23 +38,51 @@ class StandardController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 	protected $perPage = 10;
 
 	/**
+	 * Apply settings to use a different template for the planet
+	 *
+	 * @param \TYPO3\FLOW3\MVC\View\ViewInterface $view
+	 * @return void
+	 */
+	protected function initializeView(\TYPO3\FLOW3\MVC\View\ViewInterface $view) {
+		if ($view instanceof \TYPO3\Fluid\View\TemplateView) {
+			if (isset($this->settings['frontend']['view']['templateRootPath'])) {
+				$view->setTemplateRootPath($this->settings['frontend']['view']['templateRootPath']);
+			}
+			if (isset($this->settings['frontend']['view']['layoutRootPath'])) {
+				$view->setLayoutRootPath($this->settings['frontend']['view']['layoutRootPath']);
+			}
+			if (isset($this->settings['frontend']['view']['partialRootPath'])) {
+				$view->setPartialRootPath($this->settings['frontend']['view']['partialRootPath']);
+			}
+		}
+	}
+
+	/**
 	 * Index action
+	 *
+	 * Displays a list of items with endless scrolling. Allows to filter by language.
 	 *
 	 * @param integer $page
 	 * @param string $language
-	 * @return void
 	 */
 	public function indexAction($page = 1, $language = NULL) {
 		$offset = ($page - 1) * $this->perPage;
-		if ($language === NULL) {
-			$count = $this->itemRepository->countAll();
-		} else {
-			$count = $this->itemRepository->countByLanguage($language);
-		}
-		$items = $this->itemRepository->findRecent($offset, $this->perPage, $language);
+
+		$filter = new \Planetflow3\Domain\Dto\ItemFilter();
+		$filter->setLanguage($language);
+		$filter->setDisabled(FALSE);
+		$result = $this->itemRepository->findByFilter($filter);
+
+		$count = $result->count();
+		$query = $result->getQuery();
+		$query->setLimit(10);
+		$query->setOffset($offset);
+		$items = $query->execute();
+
+		$this->view->assign('items', $items);
 
 		$this->view->assign('language', $language);
-		$this->view->assign('items', $items);
+
 		$this->view->assign('page', $page);
 		$this->view->assign('count', $count);
 		$this->view->assign('offset', $offset);
@@ -73,7 +101,6 @@ class StandardController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 	 * Publish an aggregated feed
 	 *
 	 * @param string $language
-	 * @return void
 	 */
 	public function feedAction($language = NULL) {
 		$items = $this->itemRepository->findRecent(0, 20, $language);

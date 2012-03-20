@@ -1,0 +1,32 @@
+{namespace p=Planetflow3\ViewHelpers}
+<p:controlGroup property="emailAddress">
+	<label class="control-label" for="field-emailAddress">E-Mail *</label>
+	<div class="controls">
+		<f:form.textfield property="emailAddress" class="span3" id="field-emailAddress" />
+		<p class="help-block">The e-mail address will also be used as the account identifier for login.</p>
+	</div>
+</p:controlGroup>
+<p:controlGroup property="role">
+	<label class="control-label" for="field-role">Role *</label>
+	<div class="controls">
+		<f:form.select property="role" id="field-role" options="{Administrator: 'Administrator', SystemAdministrator: 'SystemAdministrator'}" />
+	</div>
+</p:controlGroup>
+<p:controlGroup name="userPassword[password]">
+	<label class="control-label" for="field-password">Password <f:if condition="{isNew}">*</f:if></label>
+	<div class="controls">
+		<f:form.password name="userPassword[password]" class="span2" id="field-password" /> <span class="help-inline">Minimum of 8 characters</span>
+		<f:if condition="{isNew}">
+			<f:then></f:then>
+			<f:else>
+				<p class="help-block"><strong>Note:</strong> An empty password will not change the current value.</p>
+			</f:else>
+		</f:if>
+	</div>
+</p:controlGroup>
+<p:controlGroup name="userPassword[passwordConfirmation]">
+	<label class="control-label" for="field-passwordConfirmation">Repeat password <f:if condition="{isNew}">*</f:if></label>
+	<div class="controls">
+		<f:form.password name="userPassword[passwordConfirmation]" class="span2" id="field-passwordConfirmation" />
+	</div>
+</p:controlGroup>

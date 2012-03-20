@@ -34,8 +34,11 @@ class OverviewController extends AbstractBackendController {
 	 * @FLOW3\SkipCsrfProtection
 	 */
 	public function indexAction() {
+		$items = $this->itemRepository->findByFilter(NULL);
+		$recentItems = $items->getQuery()->setLimit(5)->execute();
+
 		$this->view->assign('itemCount', $this->itemRepository->countAll());
-		$this->view->assign('recentItems', $this->itemRepository->findRecent(0, 5));
+		$this->view->assign('recentItems', $recentItems);
 		$this->view->assign('channelCount', $this->channelRepository->countAll());
 		$this->view->assign('topChannels', $this->channelRepository->findTopChannels());
 	}

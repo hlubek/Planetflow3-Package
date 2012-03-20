@@ -36,3 +36,6 @@ Planetflow3:
         severityThreshold: %LOG_INFO%
         maximumLogFileSize: 1048576
         logFilesToKeep: 1
+  frontend:
+    view:
+      template: NULL

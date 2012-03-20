@@ -39,15 +39,9 @@ class SetupCommandController extends \TYPO3\FLOW3\MVC\Controller\CommandControll
 
 	/**
 	 * @FLOW3\Inject
-	 * @var \TYPO3\FLOW3\Security\AccountRepository
+	 * @var \Planetflow3\Domain\Repository\UserRepository
 	 */
-	protected $accountRepository;
-
-	/**
-	 * @FLOW3\Inject
-	 * @var \TYPO3\FLOW3\Security\AccountFactory
-	 */
-	protected $accountFactory;
+	protected $userRepository;
 
 	/**
 	 * Create sample data
@@ -125,14 +119,21 @@ class SetupCommandController extends \TYPO3\FLOW3\MVC\Controller\CommandControll
 	/**
 	 * Create a user for administration
 	 *
-	 * @param string $identifier Account identifier of the new user
+	 * The user will get the SystemAdministrator role to manage all data and users.
+	 *
+	 * @param string $emailAddress E-mail address (account identifier) of the new user
 	 * @return void
 	 */
-	public function createUserCommand($identifier) {
+	public function createUserCommand($emailAddress) {
 		$uuid = \TYPO3\FLOW3\Utility\Algorithms::generateUUID();
 		$password = substr($uuid, 0, 10);
-		$account = $this->accountFactory->createAccountWithPassword($identifier, $password, array('Administrator'), 'AdminInterfaceProvider');
-		$this->accountRepository->add($account);
+		$user = new \Planetflow3\Domain\Model\User();
+		$user->setEmailAddress($emailAddress);
+		$user->setPassword($password);
+		$user->setRole('SystemAdministrator');
+
+		$this->userRepository->add($user);
+
 		echo "Password: $password" . PHP_EOL;
 	}
 

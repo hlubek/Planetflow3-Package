@@ -7,13 +7,10 @@
 		<p:menu.item controller="Channel" action="index" icon="icon-book">Channels</p:menu.item>
 		<p:menu.item controller="Category" action="index" icon="icon-tags">Categories</p:menu.item>
 
-		<li class="nav-header">System management</li>
-		<li><a href="#"><i class="icon-time"></i> Log</a></li>
-		<li><a href="#"><i class="icon-user"></i> Users</a></li>
-		<!--
-			<li><a href="#"><i class="icon-cog"></i> Settings</a></li>
-			<li class="divider"></li>
-			<li><a href="#"><i class="icon-flag"></i> Help</a></li>
-		-->
+		<f:security.ifHasRole role="SystemAdministrator">
+			<li class="nav-header">System management</li>
+			<!-- <li><a href="#"><i class="icon-time"></i> Log</a></li> -->
+			<p:menu.item controller="User" action="index" icon="icon-user">Users</p:menu.item>
+		</f:security.ifHasRole>
 	</ul>
 </div>

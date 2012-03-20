@@ -21,14 +21,14 @@
 			<div class="control-group">
 				<label class="control-label">Universal identifier</label>
 				<div class="controls">
-					<span class="uneditable-input">{item.universalIdentifier}</span>
+					<span class="uneditable-input span5">{item.universalIdentifier}</span>
 				</div>
 			</div>
 
 			<div class="control-group">
 				<label class="control-label">Publication date</label>
 				<div class="controls">
-					<span class="uneditable-input">{item.publicationDate -> f:format.date(format: 'Y-m-d H:i:s')}</span>
+					<span class="uneditable-input span2">{item.publicationDate -> f:format.date(format: 'Y-m-d H:i:s')}</span>
 				</div>
 			</div>
 
@@ -54,6 +54,13 @@
 				<div class="controls">
 					<f:form.select multiple="true" options="{categories}" optionLabelField="name" property="categories" id="field-categories" />
 					<p class="help-block"><i class="icon-info-sign"></i> Hold <em>Ctrl</em> or <em>Cmd</em> to select multiple categories.</p>
+				</div>
+			</p:controlGroup>
+
+			<p:controlGroup property="language">
+				<label class="control-label" for="field-language">Language</label>
+				<div class="controls">
+					<f:form.textfield property="language" class="input-mini" id="field-language" />
 				</div>
 			</p:controlGroup>
 
