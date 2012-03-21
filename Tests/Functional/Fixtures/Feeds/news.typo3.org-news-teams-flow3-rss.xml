@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="http://news.typo3.org/fileadmin/news.typo3.org/rss.xsl" media="screen"?>
+<rss version="2.0">
+	<channel>
+		
+		<title>TYPO3 news: FLOW3</title>
+		<link>http://news.typo3.org/</link>
+		<description>news.typo3.org: The TYPO3 news resource</description>
+		<language>en</language>
+		<image>
+			<title>TYPO3 news: FLOW3</title>
+			<url>http://news.typo3.org/fileadmin/news.typo3.org/xmlicon.gif</url>
+			<link>http://news.typo3.org/</link>
+			<width>88</width>
+			<height>31</height>
+			<description>news.typo3.org: The TYPO3 news resource</description>
+		</image>
+		<generator>TYPO3 - get.content.right</generator>
+		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+		
+		
+		
+		<lastBuildDate>Sun, 18 Mar 2012 16:25:00 +0100</lastBuildDate>
+		
+		
+		<item>
+			<title>FLOW3 1.1 Sneak Preview: Form API and -Builder</title>
+			<link>http://news.typo3.org/news/article/flow3-11-sneak-preview-form-api-and-builder/</link>
+			<description>FLOW3 1.1 will contain a powerful framework to create web forms, along with a graphical IDE for creating and editing them. Read on for details and a screencast!</description>
+			<category>FLOW3</category>
+			<category>Development</category>
+			
+			
+			<pubDate>Thu, 08 Mar 2012 10:33:00 +0100</pubDate>
+		</item>
+		
+		<item>
+			<title>Budget use in the TYPO3 Phoenix and FLOW3 project</title>
+			<link>http://news.typo3.org/news/article/budget-use-in-the-typo3-phoenix-and-flow3-project/</link>
+			<description>This article describes the use of funds granted to the TYPO3 Phoenix and FLOW3 project in 2011 and explains the budget application we handed in (and had granted) for 2012.</description>
+			<category>TYPO3 5.0 Development</category>
+			<category>FLOW3</category>
+			<category>www.typo3.org</category>
+			
+			<author>karsten@typo3.org</author>
+			<pubDate>Wed, 07 Mar 2012 11:20:00 +0100</pubDate>
+		</item>
+		
+		<item>
+			<title>TYPO3 Phoenix and FLOW3 - February 2012</title>
+			<link>http://news.typo3.org/news/article/typo3-phoenix-and-flow3-february-2012/</link>
+			<description>After the massive amount of newsworthy things in January, the February turned out to be a little less intense when it comes to new things. Nevertheless work on Phoenix and FLOW3 continued full scale,...</description>
+			<category>Development</category>
+			<category>TYPO3 5.0 Development</category>
+			<category>FLOW3</category>
+			<category>www.typo3.org</category>
+			
+			<author>karsten@typo3.org</author>
+			<pubDate>Tue, 06 Mar 2012 12:45:00 +0100</pubDate>
+		</item>
+		
+		<item>
+			<title>FLOW3 1.0.3 has been released</title>
+			<link>http://news.typo3.org/news/article/flow3-103-has-been-released/</link>
+			<description>FLOW3 1.0.3, the third patch release of the PHP application framework has been released.</description>
+			<category>Development</category>
+			<category>FLOW3</category>
+			<category>www.typo3.org</category>
+			
+			
+			<pubDate>Sat, 25 Feb 2012 21:30:00 +0100</pubDate>
+		</item>
+		
+		<item>
+			<title>Heads first into a new year - January 2012</title>
+			<link>http://news.typo3.org/news/article/heads-first-into-a-new-year-january-2012/</link>
+			<description>After an exciting 2011 we have meanwhile completed the first month of 2012. Just like probably everyone else we have some ideas for doing things better than in the past, and this includes...</description>
+			<category>Development</category>
+			<category>TYPO3 5.0 Development</category>
+			<category>FLOW3</category>
+			<category>www.typo3.org</category>
+			
+			<author>karsten@typo3.org</author>
+			<pubDate>Fri, 03 Feb 2012 15:01:00 +0100</pubDate>
+		</item>
+		
+		<item>
+			<title>FLOW3 1.0.2 has been released</title>
+			<link>http://news.typo3.org/news/article/flow3-102-has-been-released/</link>
+			<description>Today FLOW3 1.0.2, the second patch release of the PHP application framework has been released.</description>
+			<category>Development</category>
+			<category>FLOW3</category>
+			<category>www.typo3.org</category>
+			
+			<author>karsten@typo3.org</author>
+			<pubDate>Thu, 22 Dec 2011 10:30:00 +0100</pubDate>
+		</item>
+		
+		<item>
+			<title>FLOW3 1.0.1 has been released</title>
+			<link>http://news.typo3.org/news/article/flow3-101-has-been-released/</link>
+			<description>Today FLOW3 1.0.1, the first patch release of the PHP application framework has been released.</description>
+			<category>Development</category>
+			<category>FLOW3</category>
+			<category>www.typo3.org</category>
+			
+			<author>karsten@typo3.org</author>
+			<pubDate>Tue, 22 Nov 2011 17:05:00 +0100</pubDate>
+		</item>
+		
+		<item>
+			<title>FLOW3 1.0.0 has been released</title>
+			<link>http://news.typo3.org/news/article/flow3-100-has-been-released/</link>
+			<description>Today FLOW3 1.0, the first stable version of the PHP application framework has been released.</description>
+			<category>Development</category>
+			<category>FLOW3</category>
+			<category>www.typo3.org</category>
+			
+			<author>karsten@typo3.org</author>
+			<pubDate>Thu, 20 Oct 2011 17:01:00 +0200</pubDate>
+		</item>
+		
+		<item>
+			<title>FLOW3 1.0 release date set to Oct 20th, 2011</title>
+			<link>http://news.typo3.org/news/article/flow3-10-release-date-set-to-oct-20th-2011/</link>
+			<description>During the T3CON11 in Hanau end of last week the release date for FLOW3 1.0 was announced.</description>
+			<category>FLOW3</category>
+			<category>www.typo3.org</category>
+			<category>Development</category>
+			
+			<author>karsten@typo3.org</author>
+			<pubDate>Mon, 10 Oct 2011 13:08:00 +0200</pubDate>
+		</item>
+		
+		<item>
+			<title>FLOW3 1.0.0 beta 2 Released</title>
+			<link>http://news.typo3.org/news/article/flow3-100-beta-2-released/</link>
+			<description>The FLOW3 core team is delighted to announce the release of FLOW3 1.0.0 beta 2. Thanks to the feedback of FLOW3 users we could identify and fix several bugs and introduce a handful of smaller...</description>
+			<category>Development</category>
+			<category>FLOW3</category>
+			<category>www.typo3.org</category>
+			
+			<author>robert@typo3.org</author>
+			<pubDate>Tue, 13 Sep 2011 16:57:00 +0200</pubDate>
+		</item>
+		
+	</channel>
+</rss>

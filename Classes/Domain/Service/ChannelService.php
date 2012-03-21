@@ -18,6 +18,8 @@ use Planetflow3\Domain\Model\Item as Item;
 
 /**
  * A service to sync feeds from channels
+ *
+ * @FLOW3\Scope("singleton")
  */
 class ChannelService {
 
@@ -40,6 +42,18 @@ class ChannelService {
 	protected $channelRepository;
 
 	/**
+	 * @FLOW3\Inject
+	 * @var \Libtextcat\Textcat
+	 */
+	protected $textcat;
+
+	/**
+	 * Array of available categories by name, will be lazily initialized
+	 * @var array
+	 */
+	protected $availableCategories = NULL;
+
+	/**
 	 * Fetches (new) items from the configured feed of a channel
 	 *
 	 * Adds new items and updates channels with a new last fetch date.
@@ -53,23 +67,9 @@ class ChannelService {
 			$logCallback = function(Item $item, $message, $severity = LOG_INFO) {};
 		}
 
-		$simplePie = new \SimplePie();
-		$simplePie->set_feed_url($channel->getFeedUrl());
-		$simplePie->enable_cache(FALSE);
-		$simplePie->init();
+		$simplePie = $this->createSimplePie($channel);
 
-		$availableCategories = $this->categoryRepository->findAll();
-		$availableCategoriesByName = array();
-		foreach ($availableCategories as $availableCategory) {
-			$availableCategoriesByName[$availableCategory->getName()] = $availableCategory;
-		}
-
-		$textcat = new \Libtextcat\Textcat();
-
-		$existingUniversalIdentifiers = array();
-		foreach ($channel->getItems() as $item) {
-			$existingUniversalIdentifiers[$item->getUniversalIdentifier()] = TRUE;
-		}
+		$existingUniversalIdentifiers = $channel->getItemsUniversalIdentifier();
 
 		$feedItems = $simplePie->get_items();
 		foreach ($feedItems as $feedItem) {
@@ -79,39 +79,19 @@ class ChannelService {
 				$logCallback($item, 'Skipped item, already fetched', LOG_DEBUG);
 				continue;
 			}
-			$item->setLink($feedItem->get_link());
-			$item->setTitle($feedItem->get_title());
-			$item->setDescription($feedItem->get_description());
-			$item->setContent($feedItem->get_content(TRUE));
-			$item->setPublicationDate(new \DateTime($feedItem->get_date()));
-			$item->setAuthor($feedItem->get_author());
 
-			$feedItemCategories = $feedItem->get_categories();
-			if (is_array($feedItemCategories)) {
-				foreach ($feedItemCategories as $feedItemCategory) {
-					$term = $feedItemCategory->get_term();
-					if ($term === NULL || $term === '') {
-						continue;
-					}
-					if (isset($availableCategoriesByName[$term])) {
-						$category = $availableCategoriesByName[$term];
-						$item->addCategory($category);
-					} else {
-						$logCallback($item, 'Skipped category "' . $term . '", not found', LOG_INFO);
-					}
-
-				}
-			}
+			$this->populateItemProperties($item, $feedItem);
+			$this->populateItemCategories($item, $feedItem, $logCallback);
 
 			if ($item->getCategories()->count() === 0 && $channel->getDefaultCategory() !== NULL) {
 				$item->addCategory($channel->getDefaultCategory());
 			}
 
 			if ($item->matchesChannel($channel)) {
-				$language = $textcat->classify($item->getDescription() . ' ' . $item->getContent());
+				$language = $this->textcat->classify($item->getDescription() . ' ' . $item->getContent());
 				if ($language !== FALSE) {
-					$logCallback($item, 'Detected language ' . $language . ' for item', LOG_DEBUG);
 					$item->setLanguage($language);
+					$logCallback($item, 'Detected language ' . $language . ' for item', LOG_DEBUG);
 				}
 
 				$channel->addItem($item);
@@ -124,8 +104,89 @@ class ChannelService {
 				$logCallback($item, 'Skipped item, filter not matched', LOG_DEBUG);
 			}
 		}
+
 		$channel->setLastFetchDate(new \DateTime());
 		$this->channelRepository->update($channel);
+	}
+
+	/**
+	 * Assign categories to an item from a feed item
+	 *
+	 * @param $item \Planetflow3\Domain\Model\Item
+	 * @param $feedItem \SimplePie_Item
+	 * @param $logCallback \Closure
+	 * @return void
+	 */
+	protected function populateItemCategories($item, $feedItem, $logCallback) {
+		$feedItemCategories = $feedItem->get_categories();
+		if (is_array($feedItemCategories)) {
+			$availableCategoriesByName = $this->getAvailableCategories();
+			foreach ($feedItemCategories as $feedItemCategory) {
+				$term = $feedItemCategory->get_term();
+				if ($term === NULL || $term === '') {
+					continue;
+				}
+				if (isset($availableCategoriesByName[$term])) {
+					$category = $availableCategoriesByName[$term];
+					$item->addCategory($category);
+				} else {
+					$logCallback($item, 'Skipped category "' . $term . '", not found', LOG_INFO);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Populate an item from a feed item
+	 *
+	 * @param $item \Planetflow3\Domain\Model\Item
+	 * @param $feedItem \SimplePie_Item
+	 * @return void
+	 */
+	protected function populateItemProperties(Item $item, \SimplePie_Item $feedItem) {
+		$item->setLink($feedItem->get_link());
+		$item->setTitle($feedItem->get_title());
+		$item->setDescription($feedItem->get_description());
+		$item->setContent($feedItem->get_content(TRUE));
+		$item->setPublicationDate(new \DateTime($feedItem->get_date()));
+		$item->setAuthor($feedItem->get_author());
+	}
+
+	/**
+	 * @return array Categories indexed by name
+	 */
+	protected function getAvailableCategories() {
+		if ($this->availableCategories === NULL) {
+			$availableCategories = $this->categoryRepository->findAll();
+			$availableCategoriesByName = array();
+			foreach ($availableCategories as $availableCategory) {
+				$availableCategoriesByName[$availableCategory->getName()] = $availableCategory;
+			}
+			$this->availableCategories = $availableCategoriesByName;
+		}
+		return $this->availableCategories;
+	}
+
+	/**
+	 * Factory method to create a SimplePie instance
+	 *
+	 * If a file URL is set as feedUrl on the channel, the raw data will be set
+	 * on SimplePie to enable functional testing.
+	 *
+	 * @param \Planetflow3\Domain\Model\Channel $channel
+	 * @return \SimplePie
+	 */
+	protected function createSimplePie(Channel $channel) {
+		$simplePie = new \SimplePie();
+		if (strpos($channel->getFeedUrl(), 'file://') === 0) {
+			$simplePie->set_raw_data(file_get_contents($channel->getFeedUrl()));
+		} else {
+			$simplePie->set_feed_url($channel->getFeedUrl());
+		}
+		$simplePie->enable_cache(FALSE);
+		$simplePie->init();
+
+		return $simplePie;
 	}
 
 }

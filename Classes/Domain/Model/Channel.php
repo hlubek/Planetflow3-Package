@@ -228,5 +228,16 @@ class Channel {
 		$this->lastFetchDate = $lastFetchDate;
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getItemsUniversalIdentifier() {
+		$identifiers = array();
+		foreach ($this->getItems() as $item) {
+			$identifiers[$item->getUniversalIdentifier()] = TRUE;
+		}
+		return $identifiers;
+	}
+
 }
 ?>
