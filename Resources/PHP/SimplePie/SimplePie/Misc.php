@@ -5,7 +5,7 @@
  * A PHP-Based RSS and Atom Feed Framework.
  * Takes the hard work out of managing a complete RSS/Atom solution.
  *
- * Copyright (c) 2004-2009, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
+ * Copyright (c) 2004-2012, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -34,16 +34,19 @@
  *
  * @package SimplePie
  * @version 1.3-dev
- * @copyright 2004-2010 Ryan Parman, Geoffrey Sneddon, Ryan McCue
+ * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
  * @author Ryan McCue
  * @link http://simplepie.org/ SimplePie
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
- * @todo phpDoc comments
  */
 
-
+/**
+ * Miscellanous utilities
+ *
+ * @package SimplePie
+ */
 class SimplePie_Misc
 {
 	public static function time_hms($seconds)
@@ -134,6 +137,14 @@ class SimplePie_Misc
 		return $output . $input;
 	}
 
+	/**
+	 * Get a HTML/XML element from a HTML string
+	 *
+	 * @deprecated Use DOMDocument instead (parsing HTML with regex is bad!)
+	 * @param string $realname Element name (including namespace prefix if applicable)
+	 * @param string $string HTML document
+	 * @return array
+	 */
 	public static function get_element($realname, $string)
 	{
 		$return = array();
@@ -1815,7 +1826,7 @@ class SimplePie_Misc
 	/**
 	 * Decode HTML entities
 	 *
-	 * @static
+	 * @deprecated Use DOMDocument instead
 	 * @param string $data Input data
 	 * @return string Output data
 	 */
@@ -2137,9 +2148,10 @@ class SimplePie_Misc
 	 *
 	 * @todo Add support for EBCDIC
 	 * @param string $data XML data
+	 * @param SimplePie_Registry $registry Class registry
 	 * @return array Possible encodings
 	 */
-	public static function xml_encoding($data)
+	public static function xml_encoding($data, &$registry)
 	{
 		// UTF-32 Big Endian BOM
 		if (substr($data, 0, 4) === "\x00\x00\xFE\xFF")
@@ -2171,7 +2183,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x00\x00\x00\x3F\x00\x00\x00\x3E"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 20), 'UTF-32BE', 'UTF-8'));
+				$parser = $registry->create('XML_Declaration_Parser', array(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 20), 'UTF-32BE', 'UTF-8')));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -2184,7 +2196,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x3F\x00\x00\x00\x3E\x00\x00\x00"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 20), 'UTF-32LE', 'UTF-8'));
+				$parser = $registry->create('XML_Declaration_Parser', array(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 20), 'UTF-32LE', 'UTF-8')));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -2197,7 +2209,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x00\x3F\x00\x3E"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 10), 'UTF-16BE', 'UTF-8'));
+				$parser = $registry->create('XML_Declaration_Parser', array(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 10), 'UTF-16BE', 'UTF-8')));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -2210,7 +2222,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x3F\x00\x3E\x00"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 10), 'UTF-16LE', 'UTF-8'));
+				$parser = $registry->create('XML_Declaration_Parser', array(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 10), 'UTF-16LE', 'UTF-8')));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -2223,7 +2235,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x3F\x3E"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(substr($data, 5, $pos - 5));
+				$parser = $registry->create('XML_Declaration_Parser', array(substr($data, 5, $pos - 5)));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -2249,10 +2261,6 @@ class SimplePie_Misc
 		header('Cache-Control: must-revalidate');
 		header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 604800) . ' GMT'); // 7 days
 		?>
-function embed_odeo(link) {
-	document.writeln('<embed src="http://odeo.com/flash/audio_player_fullsize.swf" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" quality="high" width="440" height="80" wmode="transparent" allowScriptAccess="any" flashvars="valid_sample_rate=true&external_url='+link+'"></embed>');
-}
-
 function embed_quicktime(type, bgcolor, width, height, link, placeholder, loop) {
 	if (placeholder != '') {
 		document.writeln('<embed type="'+type+'" style="cursor:hand; cursor:pointer;" href="'+link+'" src="'+placeholder+'" width="'+width+'" height="'+height+'" autoplay="false" target="myself" controller="false" loop="'+loop+'" scale="aspect" bgcolor="'+bgcolor+'" pluginspage="http://www.apple.com/quicktime/download/"></embed>');
@@ -2292,7 +2300,8 @@ function embed_wmedia(width, height, link) {
 		elseif (file_exists($root . '/SimplePie'))
 		{
 			$time = 0;
-			foreach (glob($root . '/SimplePie/*.php') as $file) {
+			foreach (glob($root . '/SimplePie/*.php') as $file)
+			{
 				if (($mtime = filemtime($file)) > $time)
 				{
 					$time = $mtime;
@@ -2358,6 +2367,11 @@ function embed_wmedia(width, height, link) {
 			}
 		}
 		return $info;
+	}
+
+	public static function silence_errors($num, $str)
+	{
+		// No-op
 	}
 }
 

@@ -34,7 +34,7 @@
  *
  * @package SimplePie
  * @version 1.3-dev
- * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
+ * @copyright 2004-2011 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
  * @author Ryan McCue
@@ -42,113 +42,26 @@
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
  */
 
-/**
- * Handles `<media:restriction>` as defined in Media RSS
- *
- * Used by {@see SimplePie_Enclosure::get_restriction()} and {@see SimplePie_Enclosure::get_restrictions()}
- *
- * This class can be overloaded with {@see SimplePie::set_restriction_class()}
- *
- * @package SimplePie
- */
-class SimplePie_Restriction
+require_once dirname(__FILE__) . '/bootstrap.php';
+
+require_once dirname(__FILE__) . '/EncodingTest.php';
+require_once dirname(__FILE__) . '/IRITest.php';
+require_once dirname(__FILE__) . '/LocatorTest.php';
+require_once dirname(__FILE__) . '/oldtests.php';
+ 
+class AllTests
 {
-	/**
-	 * Relationship ('allow'/'deny')
-	 *
-	 * @var string
-	 * @see get_relationship()
-	 */
-	var $relationship;
-
-	/**
-	 * Type of restriction
-	 *
-	 * @var string
-	 * @see get_type()
-	 */
-	var $type;
-
-	/**
-	 * Restricted values
-	 *
-	 * @var string
-	 * @see get_value()
-	 */
-	var $value;
-
-	/**
-	 * Constructor, used to input the data
-	 *
-	 * For documentation on all the parameters, see the corresponding
-	 * properties and their accessors
-	 */
-	public function __construct($relationship = null, $type = null, $value = null)
+	public static function suite()
 	{
-		$this->relationship = $relationship;
-		$this->type = $type;
-		$this->value = $value;
-	}
+		$suite = new PHPUnit_Framework_TestSuite();
+		$suite->setName('SimplePie');
 
-	/**
-	 * String-ified version
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		// There is no $this->data here
-		return md5(serialize($this));
-	}
-
-	/**
-	 * Get the relationship
-	 *
-	 * @return string|null Either 'allow' or 'deny'
-	 */
-	public function get_relationship()
-	{
-		if ($this->relationship !== null)
-		{
-			return $this->relationship;
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	/**
-	 * Get the type
-	 *
-	 * @return string|null
-	 */
-	public function get_type()
-	{
-		if ($this->type !== null)
-		{
-			return $this->type;
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	/**
-	 * Get the list of restricted things
-	 *
-	 * @return string|null
-	 */
-	public function get_value()
-	{
-		if ($this->value !== null)
-		{
-			return $this->value;
-		}
-		else
-		{
-			return null;
-		}
+		$suite->addTestSuite('EncodingTest');
+		$suite->addTestSuite('IRITest');
+		$suite->addTestSuite('LocatorTest');
+		$suite->addTestSuite('HTTPParserTest');
+		$suite->addTestSuite('OldTest');
+ 
+		return $suite;
 	}
 }

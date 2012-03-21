@@ -3,7 +3,7 @@
 /**
  * IRI test cases
  *
- * Copyright (c) 2008-2010 Geoffrey Sneddon.
+ * Copyright (c) 2008-2012 Geoffrey Sneddon.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,15 +34,13 @@
  *
  * @package IRI
  * @author Geoffrey Sneddon
- * @copyright 2008-2010 Geoffrey Sneddon
+ * @copyright 2008-2012 Geoffrey Sneddon
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @link http://hg.gsnedders.com/iri/
  *
  */
 
-require_once 'PHPUnit/Autoload.php';
-require_once '../SimplePieAutoloader.php';
-class_exists('SimplePie') or die("Couldn't load SimplePie");
+require_once dirname(__FILE__) . '/bootstrap.php';
  
 class IRITest extends PHPUnit_Framework_TestCase
 {

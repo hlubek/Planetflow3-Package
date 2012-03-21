@@ -28,7 +28,7 @@ If you're looking for PHP 4.x support, pull the "one-dot-two" branch, as that's 
 
 
 ## License
-[New BSD license](http://www.opensource.org/licenses/bsd-license.php)
+[New BSD license](http://www.opensource.org/licenses/BSD-3-Clause)
 
 
 ## Project status
@@ -47,12 +47,13 @@ Removing PHP 4.x support will certainly help with the slimming. It will also hel
 
 ## What comes in the package?
 1. `SimplePie.compiled.php` - The SimplePie library in one file.  This is all that's required for your pages.
+   Either run `php build/compile.php` to generate this, or grab a copy from [dev.simplepie.org](http://dev.simplepie.org/SimplePie.compiled.php)
 2. `SimplePieAutoloader.php` - The SimplePie Autoloader if you want to use the separate file version.
 3. `SimplePie/` - SimplePie classes for use with the autoloader
 4. `README.markdown` - This document.
 5. `LICENSE.txt` - A copy of the BSD license.
 6. `compatibility_test/` - The SimplePie compatibility test that checks your server for required settings.
-7. `demo/` - A basic feed reader demo that shows off some of SimplePie's more noticable features.
+7. `demo/` - A basic feed reader demo that shows off some of SimplePie's more noticeable features.
 8. `idn/` - A third-party library that SimplePie can optionally use to understand Internationalized Domain Names (IDNs).
 9. `test/` - SimplePie's unit test suite.
 
@@ -86,3 +87,9 @@ The following have recently been removed:
 * `subscribe_*` (except `subscribe_url`)
 * `utf8_bad_replace`
 * `set_javascript` (See `SimplePie_Misc::output_javascript()`)
+* Support for Odeo
+
+### Deprecated
+The following have recently been deprecated:
+
+* `SimplePie_Enclosure::native_embed` (use `SimplePie_Enclosure::embed(..., true)` instead)

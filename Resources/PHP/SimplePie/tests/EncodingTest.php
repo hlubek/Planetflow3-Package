@@ -7,7 +7,7 @@
  * A PHP-Based RSS and Atom Feed Framework.
  * Takes the hard work out of managing a complete RSS/Atom solution.
  *
- * Copyright (c) 2004-2010, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
+ * Copyright (c) 2004-2012, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -42,12 +42,9 @@
  * @author Ryan McCue
  * @link http://simplepie.org/ SimplePie
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
- * @todo phpDoc comments
  */
 
-require_once 'PHPUnit/Autoload.php';
-require_once '../SimplePieAutoloader.php';
-class_exists('SimplePie') or die("Couldn't load SimplePie");
+require_once dirname(__FILE__) . '/bootstrap.php';
 
 class EncodingTest extends PHPUnit_Framework_TestCase
 {
@@ -175,6 +172,19 @@ class EncodingTest extends PHPUnit_Framework_TestCase
 	public function test_nonexistant()
 	{
 		$this->assertFalse(SimplePie_Misc::change_encoding('', 'TESTENC', 'UTF-8'));
+	}
+
+	public static function assertEquals($expected, $actual, $message = '', $delta = 0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
+	{
+		if (is_string($expected))
+		{
+			$expected = bin2hex($expected);
+		}
+		if (is_string($actual))
+		{
+			$actual = bin2hex($actual);
+		}
+		parent::assertEquals($expected, $actual, $message, $delta, $maxDepth, $canonicalize, $ignoreCase);
 	}
 }
 

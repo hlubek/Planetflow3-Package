@@ -5,7 +5,7 @@
  * A PHP-Based RSS and Atom Feed Framework.
  * Takes the hard work out of managing a complete RSS/Atom solution.
  *
- * Copyright (c) 2004-2009, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
+ * Copyright (c) 2004-2012, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -34,16 +34,23 @@
  *
  * @package SimplePie
  * @version 1.3-dev
- * @copyright 2004-2010 Ryan Parman, Geoffrey Sneddon, Ryan McCue
+ * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
  * @author Ryan McCue
  * @link http://simplepie.org/ SimplePie
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
- * @todo phpDoc comments
  */
 
-
+/**
+ * Used to create cache objects
+ *
+ * This class can be overloaded with {@see SimplePie::set_cache_class()},
+ * although the preferred way is to create your own handler
+ * via {@see register()}
+ *
+ * @package SimplePie
+ */
 class SimplePie_Cache
 {
 	/**
@@ -53,7 +60,10 @@ class SimplePie_Cache
 	 * {@see register()}
 	 * @var array
 	 */
-	protected static $handlers = array('mysql' => 'SimplePie_Cache_MySQL');
+	protected static $handlers = array(
+		'mysql' => 'SimplePie_Cache_MySQL',
+		'memcache' => 'SimplePie_Cache_Memcache',
+	);
 
 	/**
 	 * Don't call the constructor. Please.
@@ -62,6 +72,11 @@ class SimplePie_Cache
 
 	/**
 	 * Create a new SimplePie_Cache object
+	 *
+	 * @param string $location URL location (scheme is used to determine handler)
+	 * @param string $filename Unique identifier for cache object
+	 * @param string $extension 'spi' or 'spc'
+	 * @return SimplePie_Cache_Base Type of object depends on scheme of `$location`
 	 */
 	public static function create($location, $filename, $extension)
 	{
@@ -88,32 +103,18 @@ class SimplePie_Cache
 	}
 
 	/**
-	 * Parse a DSN into an array
+	 * Parse a URL into an array
 	 *
-	 * @param string $dsn
+	 * @param string $url
 	 * @return array
 	 */
-	public static function parse_DSN($dsn)
+	public static function parse_URL($url)
 	{
-		$params = array();
-		list($params['type'], $options) = explode(':', $dsn, 2);
-		$options = explode(';', $options);
-		// We need a for loop, so that we can splice
-		for ($i = 0; $i < count($options); $i++)
+		$params = parse_url($url);
+		$params['extras'] = array();
+		if (isset($params['query']))
 		{
-			$option = $options[$i];
-			// If this string ends with a backslash...
-			while (strpos($option, '\\') === (strlen($option) - 1))
-			{
-				// Remove the backslash
-				$option = substr($option, 0, strlen($option) - 1);
-				// Remove the next item from the array and reindex
-				$next = array_splice($options, $i + 1, 1);
-				// Then append the next one, with the semicolon between
-				$option .= ';' . $next[0];
-			}
-			list($name, $value) = explode('=', $option, 2);
-			$params[$name] = $value;
+			parse_str($params['query'], $params['extras']);
 		}
 		return $params;
 	}

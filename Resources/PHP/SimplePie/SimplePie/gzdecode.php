@@ -5,7 +5,7 @@
  * A PHP-Based RSS and Atom Feed Framework.
  * Takes the hard work out of managing a complete RSS/Atom solution.
  *
- * Copyright (c) 2004-2009, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
+ * Copyright (c) 2004-2012, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -34,20 +34,20 @@
  *
  * @package SimplePie
  * @version 1.3-dev
- * @copyright 2004-2010 Ryan Parman, Geoffrey Sneddon, Ryan McCue
+ * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
  * @author Ryan McCue
  * @link http://simplepie.org/ SimplePie
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
- * @todo phpDoc comments
  */
 
 
 /**
- * gzdecode
+ * Decode 'gzip' encoded HTTP data
  *
  * @package SimplePie
+ * @link http://www.gzip.org/format.txt
  */
 class SimplePie_gzdecode
 {
@@ -55,6 +55,7 @@ class SimplePie_gzdecode
 	 * Compressed data
 	 *
 	 * @access private
+	 * @var string
 	 * @see gzdecode::$data
 	 */
 	var $compressed_data;
@@ -63,6 +64,7 @@ class SimplePie_gzdecode
 	 * Size of compressed data
 	 *
 	 * @access private
+	 * @var int
 	 */
 	var $compressed_size;
 
@@ -70,6 +72,7 @@ class SimplePie_gzdecode
 	 * Minimum size of a valid gzip string
 	 *
 	 * @access private
+	 * @var int
 	 */
 	var $min_compressed_size = 18;
 
@@ -77,6 +80,7 @@ class SimplePie_gzdecode
 	 * Current position of pointer
 	 *
 	 * @access private
+	 * @var int
 	 */
 	var $position = 0;
 
@@ -84,6 +88,7 @@ class SimplePie_gzdecode
 	 * Flags (FLG)
 	 *
 	 * @access private
+	 * @var int
 	 */
 	var $flags;
 
@@ -92,6 +97,7 @@ class SimplePie_gzdecode
 	 *
 	 * @access public
 	 * @see gzdecode::$compressed_data
+	 * @var string
 	 */
 	var $data;
 
@@ -99,6 +105,7 @@ class SimplePie_gzdecode
 	 * Modified time
 	 *
 	 * @access public
+	 * @var int
 	 */
 	var $MTIME;
 
@@ -106,6 +113,7 @@ class SimplePie_gzdecode
 	 * Extra Flags
 	 *
 	 * @access public
+	 * @var int
 	 */
 	var $XFL;
 
@@ -113,6 +121,7 @@ class SimplePie_gzdecode
 	 * Operating System
 	 *
 	 * @access public
+	 * @var int
 	 */
 	var $OS;
 
@@ -122,6 +131,7 @@ class SimplePie_gzdecode
 	 * @access public
 	 * @see gzdecode::$extra_field
 	 * @see gzdecode::$SI2
+	 * @var string
 	 */
 	var $SI1;
 
@@ -131,6 +141,7 @@ class SimplePie_gzdecode
 	 * @access public
 	 * @see gzdecode::$extra_field
 	 * @see gzdecode::$SI1
+	 * @var string
 	 */
 	var $SI2;
 
@@ -140,6 +151,7 @@ class SimplePie_gzdecode
 	 * @access public
 	 * @see gzdecode::$SI1
 	 * @see gzdecode::$SI2
+	 * @var string
 	 */
 	var $extra_field;
 
@@ -147,6 +159,7 @@ class SimplePie_gzdecode
 	 * Original filename
 	 *
 	 * @access public
+	 * @var string
 	 */
 	var $filename;
 
@@ -154,13 +167,15 @@ class SimplePie_gzdecode
 	 * Human readable comment
 	 *
 	 * @access public
+	 * @var string
 	 */
 	var $comment;
 
 	/**
 	 * Don't allow anything to be set
 	 *
-	 * @access public
+	 * @param string $name
+	 * @param mixed $value
 	 */
 	public function __set($name, $value)
 	{
@@ -170,7 +185,7 @@ class SimplePie_gzdecode
 	/**
 	 * Set the compressed string and related properties
 	 *
-	 * @access public
+	 * @param string $data
 	 */
 	public function __construct($data)
 	{
@@ -181,7 +196,7 @@ class SimplePie_gzdecode
 	/**
 	 * Decode the GZIP stream
 	 *
-	 * @access public
+	 * @return bool Successfulness
 	 */
 	public function parse()
 	{
@@ -236,7 +251,7 @@ class SimplePie_gzdecode
 
 				// Get the length of the extra field
 				$len = current(unpack('v', substr($this->compressed_data, $this->position, 2)));
-				$position += 2;
+				$this->position += 2;
 
 				// Check the length of the string is still valid
 				$this->min_compressed_size += $len + 4;

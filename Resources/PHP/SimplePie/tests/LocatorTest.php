@@ -1,5 +1,7 @@
 <?php
 /**
+ * Tests for autodiscovery
+ *
  * SimplePie
  *
  * A PHP-Based RSS and Atom Feed Framework.
@@ -34,7 +36,7 @@
  *
  * @package SimplePie
  * @version 1.3-dev
- * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
+ * @copyright 2004-2011 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
  * @author Ryan McCue
@@ -42,113 +44,79 @@
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
  */
 
-/**
- * Handles `<media:restriction>` as defined in Media RSS
- *
- * Used by {@see SimplePie_Enclosure::get_restriction()} and {@see SimplePie_Enclosure::get_restrictions()}
- *
- * This class can be overloaded with {@see SimplePie::set_restriction_class()}
- *
- * @package SimplePie
- */
-class SimplePie_Restriction
+require_once dirname(__FILE__) . '/bootstrap.php';
+
+class LocatorTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Relationship ('allow'/'deny')
+	 * Tests from Firefox
 	 *
-	 * @var string
-	 * @see get_relationship()
+	 * Tests are used under the LGPL license, see file for license
+	 * information
 	 */
-	var $relationship;
-
-	/**
-	 * Type of restriction
-	 *
-	 * @var string
-	 * @see get_type()
-	 */
-	var $type;
-
-	/**
-	 * Restricted values
-	 *
-	 * @var string
-	 * @see get_value()
-	 */
-	var $value;
-
-	/**
-	 * Constructor, used to input the data
-	 *
-	 * For documentation on all the parameters, see the corresponding
-	 * properties and their accessors
-	 */
-	public function __construct($relationship = null, $type = null, $value = null)
+	public static function firefoxtests()
 	{
-		$this->relationship = $relationship;
-		$this->type = $type;
-		$this->value = $value;
+		$data = array(
+			array(new SimplePie_File(dirname(__FILE__) . '/data/fftests.html'))
+		);
+		foreach ($data as &$row)
+		{
+			$row[0]->headers = array('content-type' => 'text/html');
+			$row[0]->method = SIMPLEPIE_FILE_SOURCE_REMOTE;
+			$row[0]->url = 'http://example.com/';
+		}
+
+		return $data;
 	}
 
 	/**
-	 * String-ified version
-	 *
-	 * @return string
+	 * @dataProvider firefoxtests
 	 */
-	public function __toString()
+	public function test_from_file($data)
 	{
-		// There is no $this->data here
-		return md5(serialize($this));
+		$locator = new SimplePie_Locator($data, 0, null, 'MockSimplePie_File', false);
+
+		$expected = SimplePie_Misc::get_element('link', $data->body);
+
+		$feed = $locator->find(SIMPLEPIE_LOCATOR_ALL, $all);
+		$this->assertFalse($locator->is_feed($data), 'HTML document not be a feed itself');
+		$this->assertInstanceOf('MockSimplePie_File', $feed);
+		$expected = array_map(array(get_class(), 'map_url_attrib'), $expected);
+		$success = array_filter($expected, array(get_class(), 'filter_success'));
+
+		$found = array_map(array(get_class(), 'map_url_file'), $all);
+		$this->assertEquals($success, $found);
 	}
 
-	/**
-	 * Get the relationship
-	 *
-	 * @return string|null Either 'allow' or 'deny'
-	 */
-	public function get_relationship()
+	protected static function filter_success($url)
 	{
-		if ($this->relationship !== null)
-		{
-			return $this->relationship;
-		}
-		else
-		{
-			return null;
-		}
+		return (stripos($url, 'bogus') === false);
 	}
 
-	/**
-	 * Get the type
-	 *
-	 * @return string|null
-	 */
-	public function get_type()
+	protected static function map_url_attrib($elem)
 	{
-		if ($this->type !== null)
-		{
-			return $this->type;
-		}
-		else
-		{
-			return null;
-		}
+		return 'http://example.com' . $elem['attribs']['href']['data'];
 	}
 
-	/**
-	 * Get the list of restricted things
-	 *
-	 * @return string|null
-	 */
-	public function get_value()
+	protected static function map_url_file($file)
 	{
-		if ($this->value !== null)
-		{
-			return $this->value;
-		}
-		else
-		{
-			return null;
-		}
+		return $file->url;
+	}
+}
+
+/**
+ * Acts as a fake feed request
+ */
+class MockSimplePie_File extends SimplePie_File
+{
+	public function __construct($url)
+	{
+		$this->url = $url;
+		$this->headers = array(
+			'content-type' => 'application/atom+xml'
+		);
+		$this->method = SIMPLEPIE_FILE_SOURCE_REMOTE;
+		$this->body = '<?xml charset="utf-8"?><feed />';
+		$this->status_code = 200;
 	}
 }

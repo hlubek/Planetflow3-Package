@@ -1,5 +1,7 @@
 <?php
 /**
+ * HTTP parsing tests
+ *
  * SimplePie
  *
  * A PHP-Based RSS and Atom Feed Framework.
@@ -34,7 +36,7 @@
  *
  * @package SimplePie
  * @version 1.3-dev
- * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
+ * @copyright 2004-2011 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
  * @author Ryan McCue
@@ -42,113 +44,41 @@
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
  */
 
-/**
- * Handles `<media:restriction>` as defined in Media RSS
- *
- * Used by {@see SimplePie_Enclosure::get_restriction()} and {@see SimplePie_Enclosure::get_restrictions()}
- *
- * This class can be overloaded with {@see SimplePie::set_restriction_class()}
- *
- * @package SimplePie
- */
-class SimplePie_Restriction
+require_once dirname(__FILE__) . '/bootstrap.php';
+
+class HTTPParserTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * Relationship ('allow'/'deny')
-	 *
-	 * @var string
-	 * @see get_relationship()
-	 */
-	var $relationship;
-
-	/**
-	 * Type of restriction
-	 *
-	 * @var string
-	 * @see get_type()
-	 */
-	var $type;
-
-	/**
-	 * Restricted values
-	 *
-	 * @var string
-	 * @see get_value()
-	 */
-	var $value;
-
-	/**
-	 * Constructor, used to input the data
-	 *
-	 * For documentation on all the parameters, see the corresponding
-	 * properties and their accessors
-	 */
-	public function __construct($relationship = null, $type = null, $value = null)
+	public static function chunkedProvider()
 	{
-		$this->relationship = $relationship;
-		$this->type = $type;
-		$this->value = $value;
+		return array(
+			array(
+				"25\r\nThis is the data in the first chunk\r\n\r\n1A\r\nand this is the second one\r\n0\r\n",
+				"This is the data in the first chunk\r\nand this is the second one"
+			),
+			array(
+				"02\r\nab\r\n04\r\nra\nc\r\n06\r\nadabra\r\n0\r\nnothing\n",
+				"abra\ncadabra"
+			),
+			array(
+				"02\r\nab\r\n04\r\nra\nc\r\n06\r\nadabra\r\n0c\r\n\nall we got\n",
+				"abra\ncadabra\nall we got\n"
+			),
+		);
 	}
 
 	/**
-	 * String-ified version
-	 *
-	 * @return string
+	 * @dataProvider chunkedProvider
 	 */
-	public function __toString()
+	public function testChunkedNormal($data, $expected)
 	{
-		// There is no $this->data here
-		return md5(serialize($this));
-	}
+		$data = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nTransfer-Encoding: chunked\r\n\r\n" . $data;
+		$parser = new SimplePie_HTTP_Parser($data);
+		$this->assertTrue($parser->parse());
+		$this->assertEquals(1.1, $parser->http_version);
+		$this->assertEquals(200, $parser->status_code);
+		$this->assertEquals('OK', $parser->reason);
+		$this->assertEquals(array('content-type' => 'text/plain'), $parser->headers);
+		$this->assertEquals($expected, $parser->body);
 
-	/**
-	 * Get the relationship
-	 *
-	 * @return string|null Either 'allow' or 'deny'
-	 */
-	public function get_relationship()
-	{
-		if ($this->relationship !== null)
-		{
-			return $this->relationship;
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	/**
-	 * Get the type
-	 *
-	 * @return string|null
-	 */
-	public function get_type()
-	{
-		if ($this->type !== null)
-		{
-			return $this->type;
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	/**
-	 * Get the list of restricted things
-	 *
-	 * @return string|null
-	 */
-	public function get_value()
-	{
-		if ($this->value !== null)
-		{
-			return $this->value;
-		}
-		else
-		{
-			return null;
-		}
 	}
 }
