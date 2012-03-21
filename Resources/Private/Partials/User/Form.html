@@ -10,6 +10,8 @@
 	<label class="control-label" for="field-role">Role *</label>
 	<div class="controls">
 		<f:form.select property="role" id="field-role" options="{Administrator: 'Administrator', SystemAdministrator: 'SystemAdministrator'}" />
+		<p class="help-block"><strong>Administrator:</strong> Is allowed to manage channels, items and categories.</p>
+		<p class="help-block"><strong>SystemAdministrator:</strong> Is allowed to manage all data and users.</p>
 	</div>
 </p:controlGroup>
 <p:controlGroup name="userPassword[password]">
