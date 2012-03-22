@@ -50,7 +50,36 @@ class StandardControllerTest extends \TYPO3\FLOW3\Tests\FunctionalTestCase {
 	/**
 	 * @test
 	 */
-	public function indexActionWithoutParametersDisplaysRecentItems() {
+	public function indexActionWithoutParametersRendersRecentItems() {
+		$this->createTestData();
+
+		$this->persistenceManager->persistAll();
+		$this->persistenceManager->clearState();
+
+		$result = $this->sendWebRequest('Standard', 'Planetflow3', 'index');
+
+		// TODO Test actual output contains item
+	}
+
+	/**
+	 * @test
+	 */
+	public function feedActionWithoutParametersRendersFeed() {
+		$this->createTestData();
+
+		$this->persistenceManager->persistAll();
+		$this->persistenceManager->clearState();
+
+		$result = $this->sendWebRequest('Standard', 'Planetflow3', 'feed');
+		// TODO Test actual output contains item
+	}
+
+	/**
+	 * Create some test data
+	 *
+	 * @return void
+	 */
+	protected function createTestData() {
 		$channel = new \Planetflow3\Domain\Model\Channel();
 		$channel->setName('Test channel');
 		$channel->setUrl('http://www.example.com');
@@ -71,14 +100,6 @@ class StandardControllerTest extends \TYPO3\FLOW3\Tests\FunctionalTestCase {
 		$item->setUniversalIdentifier('http://www.example.com/posts/2');
 
 		$this->itemRepository->add($item);
-
-		$this->persistenceManager->persistAll();
-		$this->persistenceManager->clearState();
-
-		$result = $this->sendWebRequest('Standard', 'Planetflow3', 'index');
-
-		// TODO Test actual output contains item
 	}
-
 }
 ?>
