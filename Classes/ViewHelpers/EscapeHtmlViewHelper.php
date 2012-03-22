@@ -21,7 +21,7 @@ namespace Planetflow3\ViewHelpers;
 class EscapeHtmlViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Escape the given value
+	 * Escape the given HTML value for use in XML
 	 *
 	 * @param string $value
 	 * @return string
@@ -30,6 +30,7 @@ class EscapeHtmlViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelp
 		if ($value === NULL) {
 			$value = $this->renderChildren();
 		}
+		$value = html_entity_decode($value, NULL, 'utf-8');
 		$value = str_replace(
 			array('&amp;', '<', '>'),
 			array('&#x26;', '&#x3C;', '&#x3E;'),
