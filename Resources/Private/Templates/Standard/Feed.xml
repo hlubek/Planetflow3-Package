@@ -13,8 +13,8 @@
 <link>{item.link}</link>
 <description>
 <f:if condition="{item.content}">
-<f:then>{item.content -> f:escape()}</f:then>
-<f:else>{item.description -> f:escape()}</f:else>
+<f:then>{item.content -> f:format.htmlentities()}</f:then>
+<f:else>{item.description -> f:format.htmlentities()}</f:else>
 </f:if>
 </description>
 <f:for each="{item.categories}" as="category">

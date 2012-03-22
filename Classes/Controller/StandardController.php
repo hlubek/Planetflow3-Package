@@ -62,8 +62,8 @@ class StandardController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 	 *
 	 * Displays a list of items with endless scrolling. Allows to filter by language.
 	 *
-	 * @param integer $page
-	 * @param string $language
+	 * @param integer $page The current page
+	 * @param string $language Filter by language, NULL for all languages
 	 */
 	public function indexAction($page = 1, $language = NULL) {
 		$offset = ($page - 1) * $this->perPage;
@@ -98,12 +98,21 @@ class StandardController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
 	}
 
 	/**
-	 * Publish an aggregated feed
+	 * Feed action
 	 *
-	 * @param string $language
+	 * Render an aggregated feed for a given language.
+	 *
+	 * @param string $language Filter by language, NULL for all languages
 	 */
 	public function feedAction($language = NULL) {
-		$items = $this->itemRepository->findRecent(0, 20, $language);
+		$filter = new \Planetflow3\Domain\Dto\ItemFilter();
+		$filter->setLanguage($language);
+		$filter->setDisabled(FALSE);
+		$result = $this->itemRepository->findByFilter($filter);
+
+		$query = $result->getQuery();
+		$query->setLimit(20);
+		$items = $query->execute();
 
 		$this->view->assign('language', $language);
 		$this->view->assign('items', $items);
