@@ -1,9 +1,10 @@
 {namespace p=Planetflow3\ViewHelpers}<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
 <title>planetflow3</title>
 <link>http://www.planetflow3.com</link>
 <description>FLOW3 blogs and buzz.</description>
+<atom:link href="{f:uri.action(action: 'feed', arguments: {language: language}, absolute: 1)}" rel="self" type="application/rss+xml"/>
 <f:if condition="{language}">
 <language>{language}</language>
 </f:if>
@@ -13,14 +14,14 @@
 <link>{item.link}</link>
 <description>
 <f:if condition="{item.content}">
-<f:then>{item.content -> f:format.htmlentities()}</f:then>
-<f:else>{item.description -> f:format.htmlentities()}</f:else>
+<f:then>{item.content -> f:format.htmlspecialchars()}</f:then>
+<f:else>{item.description -> f:format.htmlspecialchars()}</f:else>
 </f:if>
 </description>
 <f:for each="{item.categories}" as="category">
 <category>{category.name}</category>
 </f:for>
-<guid>{item.universalIdentifier}</guid>
+<guid isPermaLink="false">{item.universalIdentifier}</guid>
 <pubDate>{item.publicationDate -> f:format.date(format: 'D, d M Y H:i:s O')}</pubDate>
 </item>
 </f:for>
