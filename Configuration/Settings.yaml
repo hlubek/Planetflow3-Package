@@ -22,10 +22,10 @@ TYPO3:
       authentication:
         providers:
           AdminInterfaceProvider:
-            providerClass: PersistedUsernamePasswordProvider
-            entryPoint:
-              WebRedirect:
-                uri: planetflow3/login
+            provider: 'PersistedUsernamePasswordProvider'
+            entryPoint: 'WebRedirect'
+            entryPointOptions:
+              uri: planetflow3/login
 
 Planetflow3:
   log:
