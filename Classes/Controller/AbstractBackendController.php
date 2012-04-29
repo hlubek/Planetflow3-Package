@@ -16,7 +16,7 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 /**
  * Abstract backend controller
  */
-class AbstractBackendController extends \TYPO3\FLOW3\MVC\Controller\ActionController {
+class AbstractBackendController extends \TYPO3\FLOW3\Mvc\Controller\ActionController {
 
 	/**
 	 * @FLOW3\Inject
@@ -26,10 +26,10 @@ class AbstractBackendController extends \TYPO3\FLOW3\MVC\Controller\ActionContro
 
 	/**
 	 *
-	 * @param \TYPO3\FLOW3\MVC\View\ViewInterface $view
+	 * @param \TYPO3\FLOW3\Mvc\View\ViewInterface $view
 	 * @return void
 	 */
-	protected function initializeView(\TYPO3\FLOW3\MVC\View\ViewInterface $view) {
+	protected function initializeView(\TYPO3\FLOW3\Mvc\View\ViewInterface $view) {
 		parent::initializeView($view);
 		$account = $this->securityContext->getAccount();
 		$view->assign('account', $account);

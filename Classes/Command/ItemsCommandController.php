@@ -19,7 +19,7 @@ use Planetflow3\Domain\Model\Item as Item;
  * Command controller to set up the Planetflow3 package
  *
  */
-class ItemsCommandController extends \TYPO3\FLOW3\MVC\Controller\CommandController {
+class ItemsCommandController extends \TYPO3\FLOW3\Cli\CommandController {
 
 	/**
 	 * @FLOW3\Inject
