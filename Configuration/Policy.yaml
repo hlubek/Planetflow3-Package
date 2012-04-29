@@ -6,11 +6,11 @@
 
 resources:
   methods:
-    TYPO3_Planetflow3_OverviewController: "method(Planetflow3\Controller\OverviewController->.*Action())"
-    TYPO3_Planetflow3_ItemController: "method(Planetflow3\Controller\ItemController->.*Action())"
-    TYPO3_Planetflow3_ChannelController: "method(Planetflow3\Controller\ChannelController->.*Action())"
-    TYPO3_Planetflow3_CategoryController: "method(Planetflow3\Controller\CategoryController->.*Action())"
-    TYPO3_Planetflow3_UserController: "method(Planetflow3\Controller\UserController->.*Action())"
+    TYPO3_Planetflow3_OverviewController: 'method(Planetflow3\Controller\OverviewController->.*Action())'
+    TYPO3_Planetflow3_ItemController: 'method(Planetflow3\Controller\ItemController->.*Action())'
+    TYPO3_Planetflow3_ChannelController: 'method(Planetflow3\Controller\ChannelController->.*Action())'
+    TYPO3_Planetflow3_CategoryController: 'method(Planetflow3\Controller\CategoryController->.*Action())'
+    TYPO3_Planetflow3_UserController: 'method(Planetflow3\Controller\UserController->.*Action())'
 
 roles:
   Administrator: []
