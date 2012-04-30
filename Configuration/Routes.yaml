@@ -14,9 +14,9 @@
 # Default route
 
 -
-  name: fallback
+  name: 'fallback'
   uriPattern: ''
   defaults:
-    '@controller': Standard
-    '@action': index
-  appendExceedingArguments: true
+    '@controller': 'Standard'
+    '@action': 'index'
+  appendExceedingArguments: TRUE
