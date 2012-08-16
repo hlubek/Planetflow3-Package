@@ -11,9 +11,12 @@ namespace Planetflow3\Domain\Repository;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
+use TYPO3\FLOW3\Annotations as FLOW3;
+
 /**
  * A repository for Items
  *
+ * @FLOW3\Scope("singleton")
  */
 class ItemRepository extends \TYPO3\FLOW3\Persistence\Doctrine\Repository {
 

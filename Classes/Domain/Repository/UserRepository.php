@@ -16,6 +16,7 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 /**
  * A repository for Users
  *
+ * @FLOW3\Scope("singleton")
  */
 class UserRepository extends \TYPO3\FLOW3\Persistence\Doctrine\Repository {
 
