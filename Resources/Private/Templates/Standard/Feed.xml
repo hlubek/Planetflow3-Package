@@ -3,7 +3,7 @@
 <channel>
 <title>planetflow3</title>
 <link>http://www.planetflow3.com</link>
-<description>FLOW3 blogs and buzz.</description>
+<description>TYPO3 Flow blogs and buzz.</description>
 <atom:link href="{f:uri.action(action: 'feed', arguments: {language: language}, absolute: 1)}" rel="self" type="application/rss+xml"/>
 <f:if condition="{language}">
 <language>{language}</language>
